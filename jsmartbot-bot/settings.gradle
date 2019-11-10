@@ -1,0 +1,3 @@
+rootProject.name = 'jsmartbot-bot'
+include 'jsmartbot-auth'
+
