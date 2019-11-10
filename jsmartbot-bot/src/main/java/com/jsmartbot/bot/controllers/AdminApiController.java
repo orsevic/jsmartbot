@@ -8,22 +8,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping(path = "admin-api")
 public class AdminApiController {
 
     @Autowired
     private AdminApiService adminApiService;
 
-    @PutMapping(value = "/add")
+    @PutMapping(value = "add")
     public List<Question> add (@RequestBody Question element) {
         return adminApiService.add(element);
     }
 
-    @DeleteMapping(value = "/delete")
+    @DeleteMapping(value = "delete")
     public List<Question> delete (@RequestBody Question element) {
         return adminApiService.delete(element);
     }
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "list")
     public List<Question> list () {
         return adminApiService.list();
     }
