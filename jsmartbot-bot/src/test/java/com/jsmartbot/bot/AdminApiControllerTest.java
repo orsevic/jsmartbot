@@ -1,5 +1,6 @@
 package com.jsmartbot.bot;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jsmartbot.bot.controllers.dto.Question;
 import org.junit.Before;
@@ -19,6 +20,8 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -50,11 +53,13 @@ public class AdminApiControllerTest {
     public void addTest() throws Exception {
         String json = objectMapper.writeValueAsString(new Question());
 
-        MvcResult result = mockMvc.perform( request(HttpMethod.PUT, "add", json) )
+        MvcResult result = mockMvc.perform( request(HttpMethod.PUT, "/admin-api/add", json) )
                 .andExpect(status().isOk())
                 .andReturn();
 
-        log.info("Result  {}", result.getResponse().getContentAsString());
+        List<Question> question = objectMapper.readValue(result.getResponse().getContentAsString(),
+                                                        new TypeReference<List<Question>>(){});
+        log.info("Result  {}", question);
     }
 
 
