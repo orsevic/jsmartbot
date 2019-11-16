@@ -1,5 +1,5 @@
 telegram.proxy.enabled: false
 telegram.proxy.host: 127.0.0.1
-telegram.proxy.port: 8080
+telegram.proxy.port: 9000
 telegram.bot.name: NAME
 telegram.bot.token: TOKEN
