@@ -1,0 +1,11 @@
+version: '2.0'
+services:
+
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: jsmartbot
+      POSTGRES_PASSWORD: jsmartbot
