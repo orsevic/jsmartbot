@@ -1,1 +1,14 @@
 server.port: 8081
+
+#spring.datasource:
+#  driverClassName: "org.postgresql.Driver"
+#  url: "jdbc:postgresql://localhost:5432/jsmartbot?connectTimeout=120&currentSchema=bot,public"
+#  username: "jsmartbot"
+#  password: "jsmartbot"
+#  min-idle: 4
+#  max-idle: 8
+#  max-active: 8
+#  max-wait: 60000
+#  test-on-borrow: true
+#  validation-interval: 5000
+#  validation-query: "SELECT 1;"

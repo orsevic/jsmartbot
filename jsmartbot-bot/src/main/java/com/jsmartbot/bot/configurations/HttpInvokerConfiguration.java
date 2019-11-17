@@ -1,6 +1,6 @@
 package com.jsmartbot.bot.configurations;
 
-import com.jsmartbot.bot.services.BotService;
+import com.jsmartbot.bot.api.sevices.BotService;
 import com.jsmartbot.bot.services.BotServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,9 +11,9 @@ import org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter;
  **/
 @Configuration
 public class HttpInvokerConfiguration {
-    @Bean(name = "/bot") HttpInvokerServiceExporter accountService() {
+    @Bean(name = "/bot") HttpInvokerServiceExporter accountService(BotService botService) {
         HttpInvokerServiceExporter exporter = new HttpInvokerServiceExporter();
-        exporter.setService( new BotServiceImpl() );
+        exporter.setService(botService);
         exporter.setServiceInterface( BotService.class );
         return exporter;
     }

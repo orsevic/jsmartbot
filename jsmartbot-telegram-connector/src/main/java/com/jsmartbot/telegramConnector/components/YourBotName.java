@@ -1,5 +1,7 @@
 package com.jsmartbot.telegramConnector.components;
 
+import com.jsmartbot.bot.api.sevices.BotService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
@@ -17,6 +19,9 @@ import org.telegram.telegrambots.meta.api.objects.Update;
     @Value("${telegram.bot.token:TOKEN}")
     private String botToken;
 
+    @Autowired
+    private BotService botService;
+
     public YourBotName(DefaultBotOptions options) {
       super(options);
     }
@@ -30,7 +35,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
             SendMessage sendMessage = new SendMessage();
             sendMessage.enableMarkdown(true);
             sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
-            sendMessage.setText("TEST");
+            sendMessage.setText(botService.answerQuestion(1, 1, "adsad").text);
 
               execute(sendMessage);
           }
