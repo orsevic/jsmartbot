@@ -2,7 +2,7 @@ package com.jsmartbot.bot;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jsmartbot.bot.controllers.dto.Question;
+import com.jsmartbot.bot.api.dto.Question;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,7 +51,7 @@ public class AdminApiControllerTest {
 
     @Test
     public void addTest() throws Exception {
-        String json = objectMapper.writeValueAsString(new Question());
+        String json = objectMapper.writeValueAsString(new Question("eqeqe"));
 
         MvcResult result = mockMvc.perform( request(HttpMethod.PUT, "/admin-api/add", json) )
                 .andExpect(status().isOk())
@@ -59,6 +59,18 @@ public class AdminApiControllerTest {
 
         List<Question> question = objectMapper.readValue(result.getResponse().getContentAsString(),
                                                         new TypeReference<List<Question>>(){});
+        log.info("Result  {}", question);
+    }
+
+    @Test
+    public void listTest() throws Exception {
+
+        MvcResult result = mockMvc.perform( request(HttpMethod.GET, "/admin-api/list", null) )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        List<Question> question = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<List<Question>>(){});
         log.info("Result  {}", question);
     }
 
