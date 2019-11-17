@@ -11,3 +11,5 @@ rootProject.name = 'jsmartbot'
 include 'jsmartbot-auth'
 include 'jsmartbot-bot'
 include 'jsmartbot-telegram-connector'
+include 'jsmartbot-bot-api'
+

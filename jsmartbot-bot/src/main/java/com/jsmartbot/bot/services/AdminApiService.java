@@ -1,6 +1,6 @@
 package com.jsmartbot.bot.services;
 
-import com.jsmartbot.bot.controllers.dto.Question;
+import com.jsmartbot.bot.api.dto.Question;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
