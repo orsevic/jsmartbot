@@ -1,7 +1,6 @@
 package com.jsmartbot.bot.configurations;
 
 import com.jsmartbot.bot.api.sevices.BotService;
-import com.jsmartbot.bot.services.BotServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter;
