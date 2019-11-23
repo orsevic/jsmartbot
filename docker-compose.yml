@@ -3,9 +3,38 @@ services:
 
   postgres:
     image: postgres
-    restart: always
     ports:
       - 5433:5432
     environment:
       POSTGRES_USER: jsmartbot
       POSTGRES_PASSWORD: jsmartbot
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 8001:80
+    depends_on:
+      - postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: orsevic@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: jsmartbot
+    volumes:
+      - pgadmin:/root/.pgadmin
+    networks:
+      - postgres
+    restart: unless-stopped
+
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
