@@ -16,7 +16,12 @@ repositories {
 dependencies {
     compile project(":jsmartbot-bot-api")
     compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile('org.springframework.boot:spring-boot-starter-data-jpa') {
+        exclude group: 'org.javassist' // remove transitive buggy dependency
+    }
+    compile "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
+    compile "org.glassfish.jaxb:jaxb-runtime:2.3.2"
+    compile('org.javassist:javassist:3.26.0-GA') // add dep with bug fix
 
     compile ("org.postgresql:postgresql")
     compile ("org.liquibase:liquibase-core")
