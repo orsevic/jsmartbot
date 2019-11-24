@@ -1,4 +1,5 @@
 server.port: 8081
+spring.application.name: bot
 
 spring:
   jpa:
@@ -7,6 +8,10 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+
+  liquibase:
+    change-log: classpath:liquibase/migration.yml
+    contexts: common
 
 spring.datasource:
   driverClassName: "org.postgresql.Driver"

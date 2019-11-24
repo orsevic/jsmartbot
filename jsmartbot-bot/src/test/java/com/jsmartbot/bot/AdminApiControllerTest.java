@@ -1,8 +1,10 @@
 package com.jsmartbot.bot;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jsmartbot.bot.api.dto.Question;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -22,14 +25,20 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(
         classes = BotApplication.class,
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+        properties = {
+                "spring.liquibase.contexts=test,common",
+                "spring.liquibase.drop-first=true"
+        }
 )
+@ActiveProfiles(value = {"default", "test"})
 public class AdminApiControllerTest {
     protected final Logger log = LoggerFactory.getLogger(getClass());
     protected MockMvc mockMvc;
@@ -51,12 +60,11 @@ public class AdminApiControllerTest {
 
     @Test
     public void addTest() throws Exception {
-        String json = objectMapper.writeValueAsString(new Question("eqeqe"));
+        String json = objectMapper.writeValueAsString(new Question(UUID.randomUUID(),"eqeqe"));
 
         MvcResult result = mockMvc.perform( request(HttpMethod.PUT, "/admin-api/add", json) )
                 .andExpect(status().isOk())
                 .andReturn();
-
         List<Question> question = objectMapper.readValue(result.getResponse().getContentAsString(),
                                                         new TypeReference<List<Question>>(){});
         log.info("Result  {}", question);
@@ -69,9 +77,12 @@ public class AdminApiControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        List<Question> question = objectMapper.readValue(result.getResponse().getContentAsString(),
+        List<Question> questions = objectMapper.readValue(result.getResponse().getContentAsString(),
                 new TypeReference<List<Question>>(){});
-        log.info("Result  {}", question);
+        log.info("Result  {}", questions);
+
+        Assert.assertNotNull("List of questions has to have question about name",
+                questions.stream().filter(question -> question.text.contains("your name")).findAny().orElse(null));
     }
 
 

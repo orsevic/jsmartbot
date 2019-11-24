@@ -6,6 +6,8 @@ import com.jsmartbot.bot.api.sevices.BotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 /**
  * @author sergeyorlov
  **/
@@ -16,6 +18,6 @@ public class BotServiceImpl implements BotService {
     @Override
     public Question answerQuestion(int questionId, int answerId, String anotherAnswer) {
 
-        return adminApiService.list().stream().findFirst().orElse(new Question("We not have question anymore"));
+        return adminApiService.list().stream().findFirst().orElse(new Question(UUID.randomUUID(), "We not have question anymore"));
     }
 }
