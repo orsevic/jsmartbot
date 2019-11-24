@@ -23,7 +23,7 @@ dependencies {
     compile "org.glassfish.jaxb:jaxb-runtime:2.3.2"
     compile('org.javassist:javassist:3.26.0-GA') // add dep with bug fix
 
-    compile ("org.postgresql:postgresql")
+    compile ("org.postgresql:postgresql:42.2.8")
     compile ("org.liquibase:liquibase-core")
 //    compile ("com.mattbertolini:liquibase-slf4j")
 
