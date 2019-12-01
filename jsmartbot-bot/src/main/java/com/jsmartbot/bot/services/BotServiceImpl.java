@@ -19,6 +19,6 @@ public class BotServiceImpl implements BotService {
     @Override
     public QuestionDto answerQuestion(String userId, UUID answerId, String anotherAnswer) {
 
-        return adminApiService.list().stream().findFirst().orElse(new QuestionDto(UUID.randomUUID(), "We not have question anymore", Collections.emptyList()));
+        return adminApiService.list().stream().filter(question -> !question.getAnswers().isEmpty()).findFirst().orElse(new QuestionDto(UUID.randomUUID(), "We not have question anymore", Collections.emptyList()));
     }
 }
