@@ -1,6 +1,8 @@
 package com.jsmartbot.bot.services;
 
-import com.jsmartbot.bot.api.dto.Question;
+import com.jsmartbot.bot.api.dto.AnswerDto;
+import com.jsmartbot.bot.api.dto.QuestionDto;
+import com.jsmartbot.bot.dao.AnswerDao;
 import com.jsmartbot.bot.dao.QuestionDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,19 +15,25 @@ import java.util.stream.Collectors;
 public class AdminApiService {
     @Autowired
     private QuestionDao questionDao;
-    private List<Question> questions = new ArrayList<>();
+    @Autowired
+    private AnswerDao answerDao;
+    private List<QuestionDto> questions = new ArrayList<>();
 
-    public List<Question> add (Question element) {
+    public List<QuestionDto> add (QuestionDto element) {
         questions.add(element);
         return questions;
     }
 
-    public List<Question> delete (Question element) {
+    public List<QuestionDto> delete (QuestionDto element) {
         questions.remove(element);
         return questions;
     }
 
-    public List<Question> list () {
-        return questionDao.findAll().stream().map(entity -> new Question(entity.id, entity.text)).collect(Collectors.toList());
+    public List<QuestionDto> list () {
+        return questionDao.findAll().stream().map(
+                entity -> new QuestionDto(entity.id, entity.text,
+                        answerDao.findByQuestionId(entity.id).stream().map(answer -> new AnswerDto(answer.id, answer.text))
+                                .collect(Collectors.toList()))
+        ).collect(Collectors.toList());
     }
 }
