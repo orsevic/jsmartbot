@@ -1,11 +1,13 @@
 package com.jsmartbot.bot.api.sevices;
 
 
-import com.jsmartbot.bot.api.dto.Question;
+import com.jsmartbot.bot.api.dto.QuestionDto;
+
+import java.util.UUID;
 
 /**
  * @author sergeyorlov
  **/
 public interface BotService {
-    public Question answerQuestion(int questionId, int answerId, String anotherAnswer);
+    QuestionDto answerQuestion(String userId, UUID answerId, String textAnswer);
 }

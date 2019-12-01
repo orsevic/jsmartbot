@@ -1,9 +1,9 @@
 package com.jsmartbot.bot;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jsmartbot.bot.api.dto.Question;
+import com.jsmartbot.bot.api.dto.AnswerDto;
+import com.jsmartbot.bot.api.dto.QuestionDto;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,14 +61,19 @@ public class AdminApiControllerTest {
 
     @Test
     public void addTest() throws Exception {
-        String json = objectMapper.writeValueAsString(new Question(UUID.randomUUID(),"eqeqe"));
+        UUID questionId = UUID.randomUUID();
+        String questionText = "Which english level do you have?";
+        String json = objectMapper.writeValueAsString(new QuestionDto(questionId, questionText,
+                Collections.singletonList(new AnswerDto(UUID.randomUUID(), "intermediate"))));
 
         MvcResult result = mockMvc.perform( request(HttpMethod.PUT, "/admin-api/add", json) )
                 .andExpect(status().isOk())
                 .andReturn();
-        List<Question> question = objectMapper.readValue(result.getResponse().getContentAsString(),
-                                                        new TypeReference<List<Question>>(){});
-        log.info("Result  {}", question);
+        List<QuestionDto> questions = objectMapper.readValue(result.getResponse().getContentAsString(),
+                                                        new TypeReference<List<QuestionDto>>(){});
+        log.info("Result  {}", questions);
+        Assert.assertEquals(1, questions.size());
+        Assert.assertEquals(questionId, questions.get(0).getId());
     }
 
     @Test
@@ -77,12 +83,12 @@ public class AdminApiControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        List<Question> questions = objectMapper.readValue(result.getResponse().getContentAsString(),
-                new TypeReference<List<Question>>(){});
+        List<QuestionDto> questions = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<List<QuestionDto>>(){});
         log.info("Result  {}", questions);
 
         Assert.assertNotNull("List of questions has to have question about name",
-                questions.stream().filter(question -> question.text.contains("your name")).findAny().orElse(null));
+                questions.stream().filter(question -> question.getText().contains("your name")).findAny().orElse(null));
     }
 
 

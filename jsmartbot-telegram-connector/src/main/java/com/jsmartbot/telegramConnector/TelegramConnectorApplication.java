@@ -12,6 +12,7 @@ import org.telegram.telegrambots.ApiContextInitializer;
 public class TelegramConnectorApplication {
     private static String PROXY_USER = "" /* proxy user */;
     private static String PROXY_PASSWORD = "" /* proxy password */;
+
     public static void main(String[] args) {
 
         System.out.println(Arrays.toString(args));
