@@ -10,9 +10,10 @@ import org.telegram.telegrambots.ApiContextInitializer;
 
 @SpringBootApplication
 public class TelegramConnectorApplication {
-    private static String PROXY_USER = "" /* proxy user */;
-    private static String PROXY_PASSWORD = "" /* proxy password */;
-
+//    private static String PROXY_USER = "" /* proxy user */;
+//    private static String PROXY_PASSWORD = "" /* proxy password */;
+    private static String PROXY_USER = "socks_user" /* proxy user */;
+    private static String PROXY_PASSWORD = "tele2" /* proxy password */;
     public static void main(String[] args) {
 
         System.out.println(Arrays.toString(args));

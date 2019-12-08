@@ -31,8 +31,8 @@ public class AdminApiService {
 
     public List<QuestionDto> list () {
         return questionDao.findAll().stream().map(
-                entity -> new QuestionDto(entity.id, entity.text,
-                        answerDao.findByQuestionId(entity.id).stream().map(answer -> new AnswerDto(answer.id, answer.text))
+                entity -> new QuestionDto(entity.getId(), entity.getText(),
+                        answerDao.findByQuestionId(entity.getId()).stream().map(answer -> new AnswerDto(answer.getId(), answer.getText()))
                                 .collect(Collectors.toList()))
         ).collect(Collectors.toList());
     }

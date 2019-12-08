@@ -7,7 +7,31 @@ import java.util.UUID;
 @Entity
 public class Answer {
     @Id
-    public UUID id;
-    public String text;
-    public UUID questionId;
+    private UUID id;
+    private String text;
+    private UUID questionId;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public UUID getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(UUID questionId) {
+        this.questionId = questionId;
+    }
 }
