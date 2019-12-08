@@ -4,7 +4,7 @@ services:
   postgres:
     image: postgres
     ports:
-      - 5433:5432
+      - 5434:5432
     environment:
       POSTGRES_USER: jsmartbot
       POSTGRES_PASSWORD: jsmartbot
@@ -19,7 +19,7 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     ports:
-      - 8001:80
+      - 8002:80
     depends_on:
       - postgres
     environment:
