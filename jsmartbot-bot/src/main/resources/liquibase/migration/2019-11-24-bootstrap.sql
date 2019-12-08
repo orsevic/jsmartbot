@@ -18,9 +18,19 @@ CREATE TABLE user_state(
 );
 
 CREATE TABLE user_answers (
-    user_id VARCHAR(256),
+    user_id VARCHAR(256) NOT NULL,
     question_id UUID NOT NULL REFERENCES question(id),
-    answer_id UUID NOT NULL REFERENCES answer(id)
+    answer_id UUID REFERENCES answer(id),
+    answer_text VARCHAR(2048),
+    CONSTRAINT pk_user_id_question_id PRIMARY KEY(user_id, question_id)
+);
+
+CREATE TABLE question_roadmap (
+    id UUID PRIMARY KEY,
+    question_id UUID NOT NULL REFERENCES question(id),
+    answer_id UUID REFERENCES answer(id),
+    answer_text VARCHAR(2048),
+    next_question_id UUID NOT NULL REFERENCES question(id)
 );
 
 --changeset orsevic:test_question context:test failOnError:true
