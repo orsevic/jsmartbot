@@ -39,7 +39,7 @@ public class BotServiceImpl implements BotService {
     public QuestionDto answerQuestion(String userId, UUID answerId, String anotherAnswer) {
 
         Optional<UserState> userState = userStateDao.findById(userId);
-        Question nextQuestion = null;
+        Optional<Question> nextQuestion = null;
         if (answerId == null && anotherAnswer == null) {
             nextQuestion = questionRoadmapService.getFirstQuestion();
         } else if (userState.isPresent()) {
@@ -47,7 +47,7 @@ public class BotServiceImpl implements BotService {
                     userState.get().getCurrentQuestionId(), answerId, anotherAnswer);
         }
 
-        return Optional.ofNullable(nextQuestion).map(entity -> new QuestionDto(entity.getId(), entity.getText(),
+        return nextQuestion.map(entity -> new QuestionDto(entity.getId(), entity.getText(),
                 answerDao.findByQuestionId(entity.getId()).stream().map(answer -> new AnswerDto(answer.getId(), answer.getText()))
                         .collect(Collectors.toList())))
                 .orElse(new QuestionDto(UUID.randomUUID(), "We not have question anymore", Collections.emptyList()));
