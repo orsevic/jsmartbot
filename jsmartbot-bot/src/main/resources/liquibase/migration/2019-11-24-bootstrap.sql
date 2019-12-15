@@ -28,6 +28,7 @@ CREATE TABLE user_answers (
 CREATE TABLE question_roadmap (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v1() ,
     question_id UUID NOT NULL REFERENCES question(id),
+    start BOOLEAN NOT NULL DEFAULT false;
     answer_id UUID REFERENCES answer(id),
     answer_text VARCHAR(2048),
     next_question_id UUID NOT NULL REFERENCES question(id)

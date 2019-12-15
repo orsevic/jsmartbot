@@ -1,18 +1,22 @@
 package com.jsmartbot.bot.services;
 
 
+import java.util.Collections;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import com.jsmartbot.bot.api.dto.AnswerDto;
 import com.jsmartbot.bot.api.dto.QuestionDto;
 import com.jsmartbot.bot.api.sevices.BotService;
+import com.jsmartbot.bot.dao.AnswerDao;
 import com.jsmartbot.bot.dao.QuestionDao;
 import com.jsmartbot.bot.dao.UserStateDao;
+import com.jsmartbot.bot.entities.Question;
 import com.jsmartbot.bot.entities.UserState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Collections;
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * @author sergeyorlov
@@ -24,21 +28,30 @@ public class BotServiceImpl implements BotService {
     private AdminApiService adminApiService;
     @Autowired
     private UserStateDao userStateDao;
+    @Autowired
     private QuestionDao questionDao;
+    @Autowired
+    private AnswerDao answerDao;
+    @Autowired
+    private QuestionRoadmapService questionRoadmapService;
 
     @Override
     public QuestionDto answerQuestion(String userId, UUID answerId, String anotherAnswer) {
 
         Optional<UserState> userState = userStateDao.findById(userId);
+        Question nextQuestion = null;
+        if (answerId == null && anotherAnswer == null) {
+            nextQuestion = questionRoadmapService.getFirstQuestion();
+        } else if (userState.isPresent()) {
+            nextQuestion = questionRoadmapService.getNextQuestion(
+                    userState.get().getCurrentQuestionId(), answerId, anotherAnswer);
+        }
 
-//        questionDao.findOneByAnswerId(answerId);
-//
-//        if (!userState.isPresent()) {
-//            userState
-//        }
-
-        return adminApiService.list().stream()
-                .filter(question -> !question.getAnswers().isEmpty()).findFirst()
+        return Optional.ofNullable(nextQuestion).map(entity -> new QuestionDto(entity.getId(), entity.getText(),
+                answerDao.findByQuestionId(entity.getId()).stream().map(answer -> new AnswerDto(answer.getId(), answer.getText()))
+                        .collect(Collectors.toList())))
                 .orElse(new QuestionDto(UUID.randomUUID(), "We not have question anymore", Collections.emptyList()));
     }
+
+
 }
