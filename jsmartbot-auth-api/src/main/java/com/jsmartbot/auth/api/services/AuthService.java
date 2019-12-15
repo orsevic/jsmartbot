@@ -1,4 +1,7 @@
 package com.jsmartbot.auth.api.services;
 
-public class AuthService {
+import com.jsmartbot.auth.api.dto.UserDto;
+
+public interface AuthService {
+    UserDto findOrCreateUser(String telegramId);
 }

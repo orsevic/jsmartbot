@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+version 'unspecified'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+//    compile "javax.validation:validation-api"
+    compile "com.fasterxml.jackson.core:jackson-annotations:2.9.0"
+//    compile "io.swagger:swagger-annotations"
+
+    testCompile ("junit:junit:4.12")
+}
