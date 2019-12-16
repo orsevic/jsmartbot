@@ -28,7 +28,7 @@ CREATE TABLE user_answers (
 CREATE TABLE question_roadmap (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v1() ,
     question_id UUID NOT NULL REFERENCES question(id),
-    start BOOLEAN NOT NULL DEFAULT false;
+    start BOOLEAN NOT NULL DEFAULT false,
     answer_id UUID REFERENCES answer(id),
     answer_text VARCHAR(2048),
     next_question_id UUID NOT NULL REFERENCES question(id)
@@ -43,3 +43,6 @@ insert into question(id, text) values
 insert into answer(id, text, question_id) values
 ('31ae8062-744d-454b-a647-200708d339fd', 'beginner', 'a36cc06b-0614-4282-a782-e1ed5085dec6'),
 ('2441fb0f-b183-4e81-9d4a-59eaeec07b52', 'intermediate', 'a36cc06b-0614-4282-a782-e1ed5085dec6');
+
+insert into question_roadmap(id, start, question_id, answer_id, answer_text, next_question_id) values
+('1110b0bb-a193-47f1-a05f-020dcd57cbb6', true, '9f20b0bb-a193-47f1-a05f-020dcd57cbb6', null, 'Joe', 'a36cc06b-0614-4282-a782-e1ed5085dec6');

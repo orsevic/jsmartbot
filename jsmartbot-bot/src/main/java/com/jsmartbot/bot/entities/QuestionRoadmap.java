@@ -10,15 +10,17 @@ public class QuestionRoadmap {
     private UUID id;
     private UUID questionId;
     private UUID answerId;
-    private String text;
+    private String answerText;
     private UUID nextQuestionId;
+    private boolean start;
 
-    public QuestionRoadmap(UUID id, UUID questionId, UUID answerId, String text, UUID nextQuestionId) {
+    public QuestionRoadmap(UUID id, UUID questionId, UUID answerId, String answerText, UUID nextQuestionId, boolean start) {
         this.id = id;
         this.questionId = questionId;
         this.answerId = answerId;
-        this.text = text;
+        this.answerText = answerText;
         this.nextQuestionId = nextQuestionId;
+        this.start = start;
     }
 
     public UUID getId() {
@@ -45,12 +47,12 @@ public class QuestionRoadmap {
         this.answerId = answerId;
     }
 
-    public String getText() {
-        return text;
+    public String getAnswerText() {
+        return answerText;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setAnswerText(String answerText) {
+        this.answerText = answerText;
     }
 
     public UUID getNextQuestionId() {
@@ -59,5 +61,9 @@ public class QuestionRoadmap {
 
     public void setNextQuestionId(UUID nextQuestionId) {
         this.nextQuestionId = nextQuestionId;
+    }
+
+    public boolean isStart() {
+        return start;
     }
 }

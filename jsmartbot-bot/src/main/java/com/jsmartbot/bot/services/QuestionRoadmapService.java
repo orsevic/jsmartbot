@@ -25,6 +25,6 @@ public class QuestionRoadmapService {
     }
 
     public Optional<Question> getFirstQuestion() {
-        return questionRoadmapDao.findOneByStart();
+        return questionRoadmapDao.findOneByStartTrue();
     }
 }

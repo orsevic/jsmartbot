@@ -39,7 +39,7 @@ public class BotServiceImpl implements BotService {
     public QuestionDto answerQuestion(String userId, UUID answerId, String anotherAnswer) {
 
         Optional<UserState> userState = userStateDao.findById(userId);
-        Optional<Question> nextQuestion = null;
+        Optional<Question> nextQuestion = Optional.empty();
         if (answerId == null && anotherAnswer == null) {
             nextQuestion = questionRoadmapService.getFirstQuestion();
         } else if (userState.isPresent()) {

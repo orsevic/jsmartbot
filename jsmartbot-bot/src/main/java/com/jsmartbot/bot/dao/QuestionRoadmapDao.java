@@ -13,5 +13,5 @@ public interface QuestionRoadmapDao extends JpaRepository<QuestionRoadmap, UID> 
     Optional<Question> findOneByQuestionIdAndAnswerId(@Param("questionId") UUID currentQuestionId, @Param("answerId") UUID answerId);
     Optional<Question> findOneByQuestionIdAndAnswerText(@Param("questionId") UUID currentQuestionId, @Param("answerText") String anotherAnswer);
 
-    Optional<Question> findOneByStart();
+    Optional<Question> findOneByStartTrue();
 }
