@@ -31,4 +31,13 @@ public class QuestionDto implements Serializable {
     public List<AnswerDto> getAnswers() {
         return answers != null ? answers : Collections.emptyList();
     }
+
+    @Override
+    public String toString() {
+        return "QuestionDto{" +
+                "id=" + id +
+                ", text='" + text + '\'' +
+                ", answers=" + answers +
+                '}';
+    }
 }

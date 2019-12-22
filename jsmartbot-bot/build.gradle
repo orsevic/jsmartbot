@@ -12,7 +12,10 @@ sourceCompatibility = 1.8
 repositories {
     mavenCentral()
 }
+bootRun {
 
+    systemProperties = System.properties
+}
 dependencies {
     compile project(':jsmartbot-auth-api')
     compile project(":jsmartbot-bot-api")
