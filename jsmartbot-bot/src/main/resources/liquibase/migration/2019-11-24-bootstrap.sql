@@ -3,7 +3,8 @@
 --changeset orsevic:structure context:common failOnError:true
 CREATE TABLE question (
   id UUID PRIMARY KEY,
-  text VARCHAR(2048) NOT NULL
+  text VARCHAR(2048) NOT NULL,
+  user_property UUID REFERENCES user_property(id)
 );
 
 CREATE TABLE answer (
@@ -32,6 +33,21 @@ CREATE TABLE question_roadmap (
     answer_id UUID REFERENCES answer(id),
     answer_text VARCHAR(2048),
     next_question_id UUID NOT NULL REFERENCES question(id)
+);
+
+CREATE TABLE user_data (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v1(),
+    user VARCHAR(256) NOT NULL,
+    user_property UUID REFERENCES user_property(id),
+    value VARCHAR(2048),
+    parent_id UUID REFERENCES user_data(id)
+);
+
+CREATE TABLE user_property (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v1() ,
+    name VARCHAR(255) NOT NULL,
+    type VARCHAR(32) NOT NULL,
+    parent_id UUID REFERENCES user_property(id)
 );
 
 --changeset orsevic:test_question context:test failOnError:true
