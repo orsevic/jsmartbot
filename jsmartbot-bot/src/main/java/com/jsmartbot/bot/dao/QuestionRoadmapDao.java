@@ -10,8 +10,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface QuestionRoadmapDao extends JpaRepository<QuestionRoadmap, UID> {
-    Optional<Question> findOneByQuestionIdAndAnswerId(@Param("questionId") UUID currentQuestionId, @Param("answerId") UUID answerId);
-    Optional<Question> findOneByQuestionIdAndAnswerText(@Param("questionId") UUID currentQuestionId, @Param("answerText") String anotherAnswer);
 
-    Optional<Question> findOneByStartTrue();
 }

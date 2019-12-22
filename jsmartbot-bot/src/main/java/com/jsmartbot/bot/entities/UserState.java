@@ -10,6 +10,14 @@ public class UserState {
     private String userId;
     private UUID currentQuestionId;
 
+    public UserState() {
+    }
+
+    public UserState(String userId, UUID currentQuestionId) {
+        this.userId = userId;
+        this.currentQuestionId = currentQuestionId;
+    }
+
     public String getUserId() {
         return userId;
     }

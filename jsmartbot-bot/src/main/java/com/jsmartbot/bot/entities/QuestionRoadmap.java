@@ -14,6 +14,9 @@ public class QuestionRoadmap {
     private UUID nextQuestionId;
     private boolean start;
 
+    public QuestionRoadmap() {
+    }
+
     public QuestionRoadmap(UUID id, UUID questionId, UUID answerId, String answerText, UUID nextQuestionId, boolean start) {
         this.id = id;
         this.questionId = questionId;

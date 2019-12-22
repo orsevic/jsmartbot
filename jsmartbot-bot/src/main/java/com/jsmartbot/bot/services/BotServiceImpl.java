@@ -42,11 +42,13 @@ public class BotServiceImpl implements BotService {
         Optional<Question> nextQuestion = Optional.empty();
         if (answerId == null && anotherAnswer == null) {
             nextQuestion = questionRoadmapService.getFirstQuestion();
+            userState = Optional.of(new UserState(userId, nextQuestion.get().getId()));
         } else if (userState.isPresent()) {
             nextQuestion = questionRoadmapService.getNextQuestion(
                     userState.get().getCurrentQuestionId(), answerId, anotherAnswer);
+            userState.get().setCurrentQuestionId(nextQuestion.get().getId());
         }
-
+        userStateDao.save(userState.get());
         return nextQuestion.map(entity -> new QuestionDto(entity.getId(), entity.getText(),
                 answerDao.findByQuestionId(entity.getId()).stream().map(answer -> new AnswerDto(answer.getId(), answer.getText()))
                         .collect(Collectors.toList())))

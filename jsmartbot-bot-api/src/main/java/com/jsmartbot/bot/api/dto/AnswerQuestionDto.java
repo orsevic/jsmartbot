@@ -3,6 +3,7 @@ package com.jsmartbot.bot.api.dto;
 import java.io.Serializable;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -13,6 +14,7 @@ public class AnswerQuestionDto  implements Serializable {
     private final UUID answerId;
     private final String anotherAnswer;
 
+    @JsonCreator
     public AnswerQuestionDto(@JsonProperty("userId") String userId, @JsonProperty("answerId") UUID answerId, @JsonProperty("anotherAnswer") String anotherAnswer) {
         this.userId = userId;
         this.answerId = answerId;

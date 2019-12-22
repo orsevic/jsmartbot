@@ -61,16 +61,26 @@ public class BotControllerTest {
     }
     @Test
     public void answerQuestionTest() throws Exception {
-        UUID questionId = UUID.randomUUID();
-        String questionText = "Which english level do you have?";
-        String json = objectMapper.writeValueAsString(new AnswerQuestionDto("1111111", questionId, questionText));
+        String userId = "1111111";
 
+
+        String json = objectMapper.writeValueAsString(new AnswerQuestionDto(userId, null, null));
         MvcResult result = mockMvc.perform( request(HttpMethod.POST, "/bot-api/answer-question", json) )
                 .andExpect(status().isOk())
                 .andReturn();
         QuestionDto question = objectMapper.readValue(result.getResponse().getContentAsString(), QuestionDto.class);
         log.info("Result  {}", question);
         Assert.assertNotNull(question);
+        Assert.assertEquals(UUID.fromString("9f20b0bb-a193-47f1-a05f-020dcd57cbb6"), question.getId());
+
+        json = objectMapper.writeValueAsString(new AnswerQuestionDto("1111111", null, "Joe"));
+        result = mockMvc.perform( request(HttpMethod.POST, "/bot-api/answer-question", json) )
+                .andExpect(status().isOk())
+                .andReturn();
+        question = objectMapper.readValue(result.getResponse().getContentAsString(), QuestionDto.class);
+        log.info("Result  {}", question);
+        Assert.assertNotNull(question);
+        Assert.assertEquals(UUID.fromString("a36cc06b-0614-4282-a782-e1ed5085dec6"), question.getId());
     }
 
     protected MockHttpServletRequestBuilder request(HttpMethod method, String path, String content){
