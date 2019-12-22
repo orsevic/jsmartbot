@@ -1,9 +1,6 @@
 package com.jsmartbot.auth.entities;
 
-import jdk.vm.ci.meta.Local;
-
 import javax.persistence.*;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
 

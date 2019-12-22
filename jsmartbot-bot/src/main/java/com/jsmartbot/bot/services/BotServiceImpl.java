@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.jsmartbot.auth.api.dto.UserDto;
+import com.jsmartbot.auth.api.services.AuthService;
 import com.jsmartbot.bot.api.dto.AnswerDto;
 import com.jsmartbot.bot.api.dto.QuestionDto;
 import com.jsmartbot.bot.api.sevices.BotService;
@@ -34,15 +36,17 @@ public class BotServiceImpl implements BotService {
     private AnswerDao answerDao;
     @Autowired
     private QuestionRoadmapService questionRoadmapService;
+    @Autowired
+    private AuthService authService;
 
     @Override
     public QuestionDto answerQuestion(String userId, UUID answerId, String anotherAnswer) {
-
-        Optional<UserState> userState = userStateDao.findById(userId);
+        UserDto user = authService.findOrCreateUser(userId);
+        Optional<UserState> userState = userStateDao.findById(user.getId().toString());
         Optional<Question> nextQuestion = Optional.empty();
         if (!userState.isPresent()) {
             nextQuestion = questionRoadmapService.getFirstQuestion();
-            userState = Optional.of(new UserState(userId, nextQuestion.get().getId()));
+            userState = Optional.of(new UserState(user.getId().toString(), nextQuestion.get().getId()));
         } else if (answerId != null || anotherAnswer != null) {
             nextQuestion = questionRoadmapService.getNextQuestion(
                     userState.get().getCurrentQuestionId(), answerId, anotherAnswer);
