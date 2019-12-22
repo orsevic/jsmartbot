@@ -1,6 +1,13 @@
 -- liquibase formatted sql
 
 --changeset orsevic:structure context:common failOnError:true
+CREATE TABLE user_property (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v1() ,
+    name VARCHAR(255) NOT NULL,
+    type VARCHAR(32) NOT NULL,
+    parent_id UUID REFERENCES user_property(id)
+);
+
 CREATE TABLE question (
   id UUID PRIMARY KEY,
   text VARCHAR(2048) NOT NULL,
@@ -37,18 +44,13 @@ CREATE TABLE question_roadmap (
 
 CREATE TABLE user_data (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v1(),
-    user VARCHAR(256) NOT NULL,
+    user_id VARCHAR(256) NOT NULL,
     user_property UUID REFERENCES user_property(id),
     value VARCHAR(2048),
     parent_id UUID REFERENCES user_data(id)
 );
 
-CREATE TABLE user_property (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v1() ,
-    name VARCHAR(255) NOT NULL,
-    type VARCHAR(32) NOT NULL,
-    parent_id UUID REFERENCES user_property(id)
-);
+
 
 --changeset orsevic:test_question context:test failOnError:true
 insert into question(id, text) values
