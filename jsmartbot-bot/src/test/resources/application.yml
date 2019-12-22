@@ -1,0 +1,24 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+  liquibase:
+    change-log: classpath:liquibase/migration.yml
+    contexts: common
+
+spring.datasource:
+  driverClassName: "org.postgresql.Driver"
+  url: "jdbc:postgresql://localhost:5434/jsmartbot?connectTimeout=120&currentSchema=bot,public"
+  username: "jsmartbot"
+  password: "jsmartbot"
+  min-idle: 4
+  max-idle: 8
+  max-active: 8
+  max-wait: 60000
+  test-on-borrow: true
+  validation-interval: 5000
+  validation-query: "SELECT 1;"

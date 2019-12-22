@@ -16,5 +16,4 @@ dependencies {
 //    compile "io.swagger:swagger-annotations"
 
     testCompile ("junit:junit:4.12")
-    testCompile ("com.fasterxml.jackson.core:jackson-databind:2.9.0")
 }

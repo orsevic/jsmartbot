@@ -1,0 +1,21 @@
+# Default ignored files
+!.gitignore
+bin
+target
+.settings
+.metadata
+.classpath
+.project
+.idea
+*.iml
+classes
+!build.gradle
+!settings.gradle
+.gradle
+build
+gradle
+gradlew
+gradlew.bat
+out
+version.txt
+logs

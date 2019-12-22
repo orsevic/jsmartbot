@@ -1,19 +1,16 @@
-package com.jsmartbot.bot.configurations;
+package com.jsmartbot.auth.configurations;
 
-import com.jsmartbot.bot.api.sevices.BotService;
+import com.jsmartbot.auth.api.services.AuthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter;
 
-/**
- * @author sergeyorlov
- **/
 @Configuration
 public class HttpInvokerConfiguration {
-    @Bean(name = "/bot") HttpInvokerServiceExporter accountService(BotService botService) {
+    @Bean(name = "/auth") HttpInvokerServiceExporter accountService(AuthService authService) {
         HttpInvokerServiceExporter exporter = new HttpInvokerServiceExporter();
-        exporter.setService(botService);
-        exporter.setServiceInterface( BotService.class );
+        exporter.setService(authService);
+        exporter.setServiceInterface( AuthService.class );
         return exporter;
     }
 }
