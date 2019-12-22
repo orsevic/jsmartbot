@@ -1,12 +1,6 @@
 package com.jsmartbot.bot;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
-
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jsmartbot.bot.api.dto.AnswerDto;
 import com.jsmartbot.bot.api.dto.AnswerQuestionDto;
 import com.jsmartbot.bot.api.dto.QuestionDto;
 import org.junit.Assert;
@@ -28,6 +22,8 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.UUID;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

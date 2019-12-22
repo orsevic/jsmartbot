@@ -13,10 +13,10 @@ public interface QuestionDao extends JpaRepository<Question, UID> {
     @Query(value = "select * from question q inner join answer a ON q.id = a.question_id  where a.id = :answerId", nativeQuery = true)
     public Question getOneByAnswerId(@Param("answerId") UUID answerId);
 
-    @Query(value = "select * from question q inner join question_roadmap qr ON q.id = qr.question_id  where q.id = :questionId AND qr.answer_id = :answerId", nativeQuery = true)
+    @Query(value = "select * from question q inner join question_roadmap qr ON q.id = qr.next_question_id  where qr.question_id = :questionId AND qr.answer_id = :answerId", nativeQuery = true)
     Optional<Question> findOneByQuestionIdAndAnswerId(@Param("questionId") UUID currentQuestionId, @Param("answerId") UUID answerId);
 
-    @Query(value = "select * from question q inner join question_roadmap qr ON q.id = qr.question_id  where q.id = :questionId AND qr.answer_text = :answerText", nativeQuery = true)
+    @Query(value = "select * from question q inner join question_roadmap qr ON q.id = qr.next_question_id  where qr.question_id = :questionId AND qr.answer_text = :answerText", nativeQuery = true)
     Optional<Question> findOneByQuestionIdAndAnswerText(@Param("questionId") UUID currentQuestionId, @Param("answerText") String anotherAnswer);
 
     @Query(value = "select * from question q inner join question_roadmap qr ON q.id = qr.question_id  where qr.start = true", nativeQuery = true)
