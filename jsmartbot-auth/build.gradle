@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'org.springframework.boot' version '2.0.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.7.RELEASE'
 }
 
 group 'com.smartbot'
@@ -12,5 +14,19 @@ repositories {
 }
 
 dependencies {
+    compile project(':jsmartbot-auth-api')
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile('org.springframework.boot:spring-boot-starter-data-jpa') {
+        exclude group: 'org.javassist' // remove transitive buggy dependency
+    }
+    compile "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
+    compile "org.glassfish.jaxb:jaxb-runtime:2.3.2"
+    compile('org.javassist:javassist:3.26.0-GA') // add dep with bug fix
+
+    compile ("org.postgresql:postgresql:42.2.8")
+    compile ("org.liquibase:liquibase-core")
+//    compile ("com.mattbertolini:liquibase-slf4j")
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

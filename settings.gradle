@@ -12,4 +12,5 @@ include 'jsmartbot-auth'
 include 'jsmartbot-bot'
 include 'jsmartbot-telegram-connector'
 include 'jsmartbot-bot-api'
+include 'jsmartbot-auth-api'
 
