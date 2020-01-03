@@ -50,7 +50,9 @@ public class BotServiceImpl implements BotService {
         } else if (answerId != null || anotherAnswer != null) {
             nextQuestion = questionRoadmapService.getNextQuestion(
                     userState.get().getCurrentQuestionId(), answerId, anotherAnswer);
-            userState.get().setCurrentQuestionId(nextQuestion.get().getId());
+            if (nextQuestion.isPresent()) {
+                userState.get().setCurrentQuestionId(nextQuestion.get().getId());
+            }
         } else {
             nextQuestion = questionDao.findById(userState.get().getCurrentQuestionId());
         }
@@ -58,7 +60,7 @@ public class BotServiceImpl implements BotService {
         return nextQuestion.map(entity -> new QuestionDto(entity.getId(), entity.getText(),
                 answerDao.findByQuestionId(entity.getId()).stream().map(answer -> new AnswerDto(answer.getId(), answer.getText()))
                         .collect(Collectors.toList())))
-                .orElse(new QuestionDto(UUID.randomUUID(), "We not have question anymore", Collections.emptyList()));
+                .orElse(new QuestionDto(UUID.randomUUID(), "We do not have question anymore", Collections.emptyList()));
     }
 
 

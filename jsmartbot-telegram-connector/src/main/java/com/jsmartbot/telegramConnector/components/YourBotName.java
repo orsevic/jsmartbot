@@ -49,14 +49,14 @@ import java.util.UUID;
           Message message = update.getMessage();
           if (message.hasText() || message.hasLocation()) {
 
-            QuestionDto nextQuestion = botService.answerQuestion(String.valueOf(update.getMessage().getChatId()), null, null);
+            QuestionDto nextQuestion = botService.answerQuestion(String.valueOf(update.getMessage().getChatId()), null, message.getText());
             sendQuestionWithAnswers(update, nextQuestion);
           }
         }
         if (update.hasCallbackQuery()) {
           CallbackQuery callbackQuery = update.getCallbackQuery();
 
-          QuestionDto nextQuestion = botService.answerQuestion(String.valueOf(update.getMessage().getChatId()), UUID.fromString(callbackQuery.getData()), null);
+          QuestionDto nextQuestion = botService.answerQuestion(String.valueOf(callbackQuery.getMessage().getChatId()), UUID.fromString(callbackQuery.getData()), null);
           sendQuestionWithAnswers(update, nextQuestion);
 
         }

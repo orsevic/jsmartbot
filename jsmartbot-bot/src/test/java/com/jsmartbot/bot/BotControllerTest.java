@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.rmi.server.UID;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -77,6 +78,15 @@ public class BotControllerTest {
         log.info("Result  {}", question);
         Assert.assertNotNull(question);
         Assert.assertEquals(UUID.fromString("a36cc06b-0614-4282-a782-e1ed5085dec6"), question.getId());
+
+        json = objectMapper.writeValueAsString(new AnswerQuestionDto("1111111", UUID.fromString("31ae8062-744d-454b-a647-200708d339fd"), "Joe"));
+        result = mockMvc.perform( request(HttpMethod.POST, "/bot-api/answer-question", json) )
+                .andExpect(status().isOk())
+                .andReturn();
+        question = objectMapper.readValue(result.getResponse().getContentAsString(), QuestionDto.class);
+        log.info("Result  {}", question);
+        Assert.assertNotNull(question);
+        Assert.assertEquals("We do not have question anymore", question.getText());
     }
 
     protected MockHttpServletRequestBuilder request(HttpMethod method, String path, String content){
