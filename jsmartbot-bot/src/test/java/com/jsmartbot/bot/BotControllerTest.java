@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 "spring.liquibase.drop-first=true"
         }
 )
-@ActiveProfiles(value = {"default", "test", "local"})
+@ActiveProfiles(value = {"default", "test" })
 public class BotControllerTest {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());

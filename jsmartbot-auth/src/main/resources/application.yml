@@ -15,7 +15,7 @@ spring:
 
 spring.datasource:
   driverClassName: "org.postgresql.Driver"
-  url: "jdbc:postgresql://localhost:5434/jsmartbot?connectTimeout=120&currentSchema=auth,public"
+  url: "jdbc:postgresql://192.168.99.100:5434/jsmartbot?connectTimeout=120&currentSchema=auth,public"
   username: "jsmartbot"
   password: "jsmartbot"
   min-idle: 4
