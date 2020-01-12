@@ -55,7 +55,9 @@ CREATE TABLE user_data (
 --changeset orsevic:test_question context:test failOnError:true
 insert into question(id, text) values
 ('9f20b0bb-a193-47f1-a05f-020dcd57cbb6', 'Hi. What is your name? '),
-('a36cc06b-0614-4282-a782-e1ed5085dec6', 'Which english level do you have?');
+('49436879-c1dc-42f4-bec5-907e0875a93a', 'Nice to meet you, ${userData.userName}'),
+('a36cc06b-0614-4282-a782-e1ed5085dec6', 'Which english level do you have?'),
+('49436879-c1dc-42f4-bec5-907e0875a93a', 'Great! I have ${applicationData.}');
 
 
 insert into answer(id, text, question_id) values
@@ -63,4 +65,5 @@ insert into answer(id, text, question_id) values
 ('2441fb0f-b183-4e81-9d4a-59eaeec07b52', 'intermediate', 'a36cc06b-0614-4282-a782-e1ed5085dec6');
 
 insert into question_roadmap(id, start, question_id, answer_id, answer_text, next_question_id) values
+('1110b0bb-a193-47f1-a05f-020dcd57cbb6', true, '9f20b0bb-a193-47f1-a05f-020dcd57cbb6', null, 'Joe', '49436879-c1dc-42f4-bec5-907e0875a93a'),
 ('1110b0bb-a193-47f1-a05f-020dcd57cbb6', true, '9f20b0bb-a193-47f1-a05f-020dcd57cbb6', null, 'Joe', 'a36cc06b-0614-4282-a782-e1ed5085dec6');
