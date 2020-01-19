@@ -11,6 +11,7 @@ CREATE TABLE user_property (
 CREATE TABLE question (
   id UUID PRIMARY KEY,
   text VARCHAR(2048) NOT NULL,
+  params TEXT,
   user_property UUID REFERENCES user_property(id)
 );
 
@@ -39,7 +40,7 @@ CREATE TABLE question_roadmap (
     start BOOLEAN NOT NULL DEFAULT false,
     answer_id UUID REFERENCES answer(id),
     answer_text VARCHAR(2048),
-    next_question_id UUID NOT NULL REFERENCES question(id)
+    next_question_id UUID REFERENCES question(id)
 );
 
 CREATE TABLE user_data (
@@ -53,11 +54,11 @@ CREATE TABLE user_data (
 
 
 --changeset orsevic:test_question context:test failOnError:true
-insert into question(id, text) values
-('9f20b0bb-a193-47f1-a05f-020dcd57cbb6', 'Hi. What is your name? '),
-('49436879-c1dc-42f4-bec5-907e0875a93a', 'Nice to meet you, ${userData.userName}'),
-('a36cc06b-0614-4282-a782-e1ed5085dec6', 'Which english level do you have?'),
-('49436879-c1dc-42f4-bec5-907e0875a93a', 'Great! I have ${applicationData.}');
+insert into question(id, text, params) values
+('9f20b0bb-a193-47f1-a05f-020dcd57cbb6', 'Hi. What is your name?', null),
+('49436879-c1dc-42f4-bec5-907e0875a93a', 'Nice to meet you, ${params.userName}', 'var result = {userName:"Joe"}; result;'),
+('a36cc06b-0614-4282-a782-e1ed5085dec6', 'Which english level do you have?', null),
+('c47a1123-3ed5-43fc-a67c-d5e02f8be179', 'Great! I have ${params.count}', 'return {\"count\":1507};');
 
 
 insert into answer(id, text, question_id) values
@@ -65,5 +66,6 @@ insert into answer(id, text, question_id) values
 ('2441fb0f-b183-4e81-9d4a-59eaeec07b52', 'intermediate', 'a36cc06b-0614-4282-a782-e1ed5085dec6');
 
 insert into question_roadmap(id, start, question_id, answer_id, answer_text, next_question_id) values
-('1110b0bb-a193-47f1-a05f-020dcd57cbb6', true, '9f20b0bb-a193-47f1-a05f-020dcd57cbb6', null, 'Joe', '49436879-c1dc-42f4-bec5-907e0875a93a'),
-('1110b0bb-a193-47f1-a05f-020dcd57cbb6', true, '9f20b0bb-a193-47f1-a05f-020dcd57cbb6', null, 'Joe', 'a36cc06b-0614-4282-a782-e1ed5085dec6');
+('624aa5e5-3930-4b43-b09a-101f1f681dca', true, '9f20b0bb-a193-47f1-a05f-020dcd57cbb6', null, null, null),
+('1110b0bb-a193-47f1-a05f-020dcd57cbb6', false, '9f20b0bb-a193-47f1-a05f-020dcd57cbb6', null, 'Joe', '49436879-c1dc-42f4-bec5-907e0875a93a'),
+('b7b6118e-d511-43b4-ab94-39c0107b0952', false, 'a36cc06b-0614-4282-a782-e1ed5085dec6', '31ae8062-744d-454b-a647-200708d339fd', null, 'c47a1123-3ed5-43fc-a67c-d5e02f8be179');

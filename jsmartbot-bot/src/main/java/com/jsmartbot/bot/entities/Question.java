@@ -11,6 +11,7 @@ public class Question {
     @Id
     private UUID id;
     private String text;
+    private String params;
 
     public UUID getId() {
         return id;
@@ -26,5 +27,13 @@ public class Question {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getParams() {
+        return params;
+    }
+
+    public void setParams(String params) {
+        this.params = params;
     }
 }
