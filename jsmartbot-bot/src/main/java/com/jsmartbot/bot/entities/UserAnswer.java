@@ -9,14 +9,14 @@ public class UserAnswer {
     @Id
     private UUID id;
     private String userId;
-    private UUID questionId;
+    private UUID phraseId;
     private UUID answerId;
     private String text;
 
-    public UserAnswer(UUID id, String userId, UUID questionId, UUID answerId, String text) {
+    public UserAnswer(UUID id, String userId, UUID phraseId, UUID answerId, String text) {
         this.id = id;
         this.userId = userId;
-        this.questionId = questionId;
+        this.phraseId = phraseId;
         this.answerId = answerId;
         this.text = text;
     }
@@ -37,12 +37,12 @@ public class UserAnswer {
         this.userId = userId;
     }
 
-    public UUID getQuestionId() {
-        return questionId;
+    public UUID getPhraseId() {
+        return phraseId;
     }
 
-    public void setQuestionId(UUID questionId) {
-        this.questionId = questionId;
+    public void setPhraseId(UUID phraseId) {
+        this.phraseId = phraseId;
     }
 
     public UUID getAnswerId() {

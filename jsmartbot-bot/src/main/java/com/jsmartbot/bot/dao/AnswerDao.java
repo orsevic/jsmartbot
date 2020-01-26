@@ -9,5 +9,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface AnswerDao extends JpaRepository<Answer, UID> {
-    List<Answer> findByQuestionId(@Param("questionId")UUID questionId);
+    List<Answer> findByPhraseId(@Param("phraseId")UUID phraseId);
 }
