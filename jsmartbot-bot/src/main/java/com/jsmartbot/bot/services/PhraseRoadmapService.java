@@ -29,31 +29,51 @@ public class PhraseRoadmapService {
     @Autowired
     private JavaScriptEngine javaScriptEngine;
 
-    public Optional<Phrase> getNextPhrase(UUID currentPhraseId, UUID answerId, String anotherAnswer) {
+    public Optional<Phrase> getNextPhrase(UUID userId, UUID currentPhraseId, UUID answerId, String anotherAnswer) {
         Optional<Phrase> result = Optional.empty();
         if(answerId != null) {
             result = phraseDao.findOneByPhraseIdAndAnswerId(currentPhraseId, answerId);
         } else if (anotherAnswer != null) {
             result = phraseDao.findOneByPhraseIdAndAnswerText(currentPhraseId, anotherAnswer);
         }
-        return result.map(phrase -> phrase.withPreparedText(prepareText(phrase.getText(), phrase.getParamsSupplier())));
+        return result.map(phrase -> phrase.withPreparedText(prepareText(userId, phrase.getText(), phrase.getParamsSupplier())));
     }
 
-    public Optional<Phrase> getFirstPhrase() {
-        return phraseDao.findOneByStartTrue().map(phrase -> phrase.withPreparedText(prepareText(phrase.getText(), phrase.getParamsSupplier())));
+    public Optional<Phrase> getFirstPhrase(UUID userId) {
+        return phraseDao.findOneByStartTrue().map(phrase -> phrase.withPreparedText(prepareText(userId, phrase.getText(), phrase.getParamsSupplier())));
     }
 
-    private String prepareText(String text, Optional<String> paramsSupplier) {
+    private String prepareText(UUID userId, String text, Optional<String> paramsSupplier) {
         if (!paramsSupplier.isPresent() || StringUtils.isEmpty(paramsSupplier.get())) {
             return text;
         }
         try {
-            Map<String, Object> params = javaScriptEngine.evalParams(paramsSupplier.get());
+            Map<String, Object> params = prepareParams(userId, paramsSupplier.get());
             return freemarkerEngine.process(text, Collections.singletonMap("params", params));
         } catch (Exception ex) {
             logger.error("Error while prepare template - {}", ex.getMessage(), ex);
         }
 
         return text;
+    }
+
+    public Map<String, Object> prepareParams(UUID userId, String paramsSupplier) {
+        javaScriptEngine.bindVariable("context", Collections.singletonMap("userId", userId));
+        Object result = javaScriptEngine.evalJs(paramsSupplier);
+        if (result instanceof Map) {
+            return (Map<String, Object>) result;
+        } else {
+            throw new RuntimeException(String.format("Result of java script is not map - %s", result));
+        }
+    }
+    public UUID calculateNextPhrase(String nextPhraseSupplier) {
+        Object result = javaScriptEngine.evalJs(nextPhraseSupplier);
+        if (result instanceof String) {
+            return UUID.fromString((String) result);
+        } else if (result instanceof UUID) {
+                return (UUID) result;
+        } else {
+            throw new RuntimeException(String.format("Result of java script is not map - %s", result));
+        }
     }
 }

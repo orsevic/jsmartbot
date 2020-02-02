@@ -27,14 +27,9 @@ public class JavaScriptEngine {
         bindings = engine.getBindings(ScriptContext.ENGINE_SCOPE);
     }
 
-    public Map<String, Object> evalParams(String paramsSupplier) {
+    public Object evalJs(String paramsSupplier) {
         try {
-            Object result = engine.eval(paramsSupplier);
-            if (result instanceof Map) {
-                return (Map<String, Object>) result;
-            } else {
-                throw new RuntimeException(String.format("Result of java script is not map - %s", result));
-            }
+            return engine.eval(paramsSupplier);
         } catch (ScriptException e) {
             logger.error("Error while evaluate java script - {}", e.getMessage(), e);
             throw new RuntimeException(e);
