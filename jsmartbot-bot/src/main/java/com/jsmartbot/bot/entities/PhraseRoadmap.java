@@ -12,23 +12,23 @@ import org.springframework.lang.Nullable;
 public class PhraseRoadmap {
     @Id
     private UUID id;
-    private UUID questionId;
+    private UUID phraseId;
     @Nullable
     private UUID answerId;
     @Nullable
     private String answerText;
-    private String nextQuestionSupplier;
+    private String nextPhraseSupplier;
     private boolean start;
 
     public PhraseRoadmap() {
     }
 
-    public PhraseRoadmap(UUID id, UUID questionId, UUID answerId, String answerText, String nextQuestionSupplier, boolean start) {
+    public PhraseRoadmap(UUID id, UUID phraseId, UUID answerId, String answerText, String nextPhraseSupplier, boolean start) {
         this.id = id;
-        this.questionId = questionId;
+        this.phraseId = phraseId;
         this.answerId = answerId;
         this.answerText = answerText;
-        this.nextQuestionSupplier = nextQuestionSupplier;
+        this.nextPhraseSupplier = nextPhraseSupplier;
         this.start = start;
     }
 
@@ -40,12 +40,12 @@ public class PhraseRoadmap {
         this.id = id;
     }
 
-    public UUID getQuestionId() {
-        return questionId;
+    public UUID getPhraseId() {
+        return phraseId;
     }
 
-    public void setQuestionId(UUID questionId) {
-        this.questionId = questionId;
+    public void setPhraseId(UUID phraseId) {
+        this.phraseId = phraseId;
     }
 
     public Optional<UUID> getAnswerId() {
@@ -64,12 +64,12 @@ public class PhraseRoadmap {
         this.answerText = answerText;
     }
 
-    public String getNextQuestionSupplier() {
-        return nextQuestionSupplier;
+    public String getNextPhraseSupplier() {
+        return nextPhraseSupplier;
     }
 
-    public void setNextQuestionSupplier(String nextQuestionSupplier) {
-        this.nextQuestionSupplier = nextQuestionSupplier;
+    public void setNextPhraseSupplier(String nextPhraseSupplier) {
+        this.nextPhraseSupplier = nextPhraseSupplier;
     }
 
     public boolean isStart() {

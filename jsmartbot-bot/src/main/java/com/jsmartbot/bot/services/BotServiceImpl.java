@@ -47,17 +47,17 @@ public class BotServiceImpl implements BotService {
         UserDto user = authService.findOrCreateUser(userId);
         Optional<UserState> userState = userStateDao.findById(user.getId().toString());
         Optional<Phrase> nextPhrase;
+
         if (!userState.isPresent()) {
             nextPhrase = phraseRoadmapService.getFirstPhrase(user.getId());
             userState = Optional.of(new UserState(user.getId().toString(), nextPhrase.get().getId()));
-        } else if (answerId != null || anotherAnswer != null) {
+        } else {
             nextPhrase = phraseRoadmapService.getNextPhrase(user.getId(), userState.get().getCurrentPhraseId(), answerId, anotherAnswer);
             if (nextPhrase.isPresent()) {
                 userState.get().setCurrentPhraseId(nextPhrase.get().getId());
             }
-        } else {
-            nextPhrase = phraseDao.findById(userState.get().getCurrentPhraseId());
         }
+
         userStateDao.save(userState.get());
         return nextPhrase.map(entity -> new PhraseDto(entity.getId(), entity.getPreparedText(),
                 answerDao.findByPhraseId(entity.getId()).stream().map(answer -> new AnswerDto(answer.getId(), answer.getText()))

@@ -27,16 +27,19 @@ public class JavaScriptEngine {
         bindings = engine.getBindings(ScriptContext.ENGINE_SCOPE);
     }
 
-    public Object evalJs(String paramsSupplier) {
+    public Object evalJs(String paramsSupplier, Map<String, Object> contextParams) {
         try {
-            return engine.eval(paramsSupplier);
+            Bindings contextBindings = engine.createBindings();
+            contextBindings.putAll(contextParams);
+
+            return engine.eval(paramsSupplier, contextBindings);
         } catch (ScriptException e) {
             logger.error("Error while evaluate java script - {}", e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }
 
-    public void bindVariable(String name, Object value) {
+    public void bindGlobalVariable(String name, Object value) {
         bindings.put(name, value);
     }
 

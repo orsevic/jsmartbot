@@ -24,7 +24,7 @@ public class ContextRefreshedListeners {
     private void bindBeans() {
         String[] beanNames = BeanFactoryUtils.beanNamesIncludingAncestors(context);
         for (String bean : beanNames) {
-            javaScriptEngine.bindVariable(bean, context.getBean(bean));
+            javaScriptEngine.bindGlobalVariable(bean, context.getBean(bean));
         }
     }
 }

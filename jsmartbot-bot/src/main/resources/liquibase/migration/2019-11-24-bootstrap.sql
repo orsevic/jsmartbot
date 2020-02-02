@@ -41,7 +41,7 @@ CREATE TABLE phrase_roadmap (
     start BOOLEAN NOT NULL DEFAULT false,
     answer_id UUID REFERENCES answer(id),
     answer_text VARCHAR(2048),
-    next_phrase_supplier UUID REFERENCES phrase (id)
+    next_phrase_supplier VARCHAR(2048)
 );
 
 CREATE TABLE user_data (
@@ -66,7 +66,6 @@ insert into answer(id, text, phrase_id)values
 ('31ae8062-744d-454b-a647-200708d339fd', 'beginner', 'a36cc06b-0614-4282-a782-e1ed5085dec6'),
 ('2441fb0f-b183-4e81-9d4a-59eaeec07b52', 'intermediate', 'a36cc06b-0614-4282-a782-e1ed5085dec6');
 
-insert into phrase_roadmap(id, start, phrase_id, answer_id, answer_text, next_phrase_supplier)values
-('624aa5e5-3930-4b43-b09a-101f1f681dca', true, '9f20b0bb-a193-47f1-a05f-020dcd57cbb6', null, null, null),
-('1110b0bb-a193-47f1-a05f-020dcd57cbb6', false, '9f20b0bb-a193-47f1-a05f-020dcd57cbb6', null, 'Joe', '49436879-c1dc-42f4-bec5-907e0875a93a'),
-('b7b6118e-d511-43b4-ab94-39c0107b0952', false, 'a36cc06b-0614-4282-a782-e1ed5085dec6', '31ae8062-744d-454b-a647-200708d339fd', null, 'c47a1123-3ed5-43fc-a67c-d5e02f8be179');
+insert into phrase_roadmap(id, start, phrase_id, answer_id, answer_text, next_phrase_supplier) values
+('1110b0bb-a193-47f1-a05f-020dcd57cbb6', true, '9f20b0bb-a193-47f1-a05f-020dcd57cbb6', null, 'Joe', 'var result = "49436879-c1dc-42f4-bec5-907e0875a93a"; result;'),
+('b7b6118e-d511-43b4-ab94-39c0107b0952', false, 'a36cc06b-0614-4282-a782-e1ed5085dec6', '31ae8062-744d-454b-a647-200708d339fd', null, 'var result = "c47a1123-3ed5-43fc-a67c-d5e02f8be179"; result;');
