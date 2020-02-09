@@ -19,12 +19,13 @@ import org.springframework.util.Assert;
 public class JavaScriptEngine {
     private static final Logger logger = LoggerFactory.getLogger(JavaScriptEngine.class);
     private final ScriptEngine engine;
-    private final Bindings bindings;
+    private final ScriptEngineManager manager;
+//    private final Bindings bindings;
 
     public JavaScriptEngine() {
-        ScriptEngineManager manager = new ScriptEngineManager();
+        manager = new ScriptEngineManager();
         engine = manager.getEngineByName("nashorn");
-        bindings = engine.getBindings(ScriptContext.ENGINE_SCOPE);
+//        bindings = engine.getBindings(ScriptContext.ENGINE_SCOPE);
     }
 
     public Object evalJs(String paramsSupplier, Map<String, Object> contextParams) {
@@ -40,7 +41,8 @@ public class JavaScriptEngine {
     }
 
     public void bindGlobalVariable(String name, Object value) {
-        bindings.put(name, value);
+//        bindings.put(name, value);
+        manager.put(name, value);
     }
 
 }
