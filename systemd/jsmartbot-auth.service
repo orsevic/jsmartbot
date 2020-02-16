@@ -1,0 +1,13 @@
+[Unit]
+Description=jsmartbot auth.service
+
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/java -jar /root/jsmartbot-auth-1.0-SNAPSHOT.jar
+Restart=on-failure
+StandardOutput=file:/var/log/jsmartbot-auth.log
+StandardError=file:/var/log/jsmartbot-auth.log
+
+[Install]
+Alias=jsmartbot-auth.service
