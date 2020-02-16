@@ -87,9 +87,18 @@ public class BotControllerTest {
         question = objectMapper.readValue(result.getResponse().getContentAsString(), PhraseDto.class);
         log.info("Result  {}", question);
         Assert.assertNotNull(question);
-        Assert.assertEquals(UUID.fromString("49436879-c1dc-42f4-bec5-907e0875a93a"), question.getId());
+        Assert.assertEquals(UUID.fromString("a36cc06b-0614-4282-a782-e1ed5085dec6"), question.getId());
 
-        json = objectMapper.writeValueAsString(new AnswerQuestionDto("1111111", UUID.fromString("31ae8062-744d-454b-a647-200708d339fd"), "Joe"));
+        json = objectMapper.writeValueAsString(new AnswerQuestionDto("1111111", UUID.fromString("31ae8062-744d-454b-a647-200708d339fd"), null));
+        result = mockMvc.perform( request(HttpMethod.POST, "/bot-api/answer-question", json) )
+                .andExpect(status().isOk())
+                .andReturn();
+        question = objectMapper.readValue(result.getResponse().getContentAsString(), PhraseDto.class);
+        log.info("Result  {}", question);
+        Assert.assertNotNull(question);
+        Assert.assertEquals(UUID.fromString("c47a1123-3ed5-43fc-a67c-d5e02f8be179"), question.getId());
+
+        json = objectMapper.writeValueAsString(new AnswerQuestionDto("1111111", null,  null));
         result = mockMvc.perform( request(HttpMethod.POST, "/bot-api/answer-question", json) )
                 .andExpect(status().isOk())
                 .andReturn();

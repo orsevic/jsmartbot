@@ -15,6 +15,7 @@ public class FreemarkerEngine {
     private Configuration cfg = new Configuration(Configuration.VERSION_2_3_29);
     {
         cfg.setClassForTemplateLoading(this.getClass(), "/");
+        cfg.setNumberFormat("computer");
     }
 
     public FreemarkerEngine() {
