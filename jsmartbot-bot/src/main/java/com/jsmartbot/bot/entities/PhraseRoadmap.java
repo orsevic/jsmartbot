@@ -13,23 +13,19 @@ public class PhraseRoadmap {
     @Id
     private UUID id;
     private UUID phraseId;
-    @Nullable
-    private UUID answerId;
-    @Nullable
-    private String answerText;
     private String nextPhraseSupplier;
     private boolean start;
+    private String userProperty;
 
     public PhraseRoadmap() {
     }
 
-    public PhraseRoadmap(UUID id, UUID phraseId, UUID answerId, String answerText, String nextPhraseSupplier, boolean start) {
+    public PhraseRoadmap(UUID id, UUID phraseId, UUID answerId, String answerText, String nextPhraseSupplier, boolean start, String userProperty) {
         this.id = id;
         this.phraseId = phraseId;
-        this.answerId = answerId;
-        this.answerText = answerText;
         this.nextPhraseSupplier = nextPhraseSupplier;
         this.start = start;
+        this.userProperty = userProperty;
     }
 
     public UUID getId() {
@@ -48,22 +44,6 @@ public class PhraseRoadmap {
         this.phraseId = phraseId;
     }
 
-    public Optional<UUID> getAnswerId() {
-        return Optional.ofNullable(answerId);
-    }
-
-    public void setAnswerId(UUID answerId) {
-        this.answerId = answerId;
-    }
-
-    public Optional<String> getAnswerText() {
-        return Optional.ofNullable(answerText);
-    }
-
-    public void setAnswerText(String answerText) {
-        this.answerText = answerText;
-    }
-
     public String getNextPhraseSupplier() {
         return nextPhraseSupplier;
     }
@@ -74,5 +54,9 @@ public class PhraseRoadmap {
 
     public boolean isStart() {
         return start;
+    }
+
+    public String getUserProperty() {
+        return userProperty;
     }
 }

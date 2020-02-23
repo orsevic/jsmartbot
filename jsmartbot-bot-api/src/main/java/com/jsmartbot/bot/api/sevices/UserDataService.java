@@ -2,6 +2,7 @@ package com.jsmartbot.bot.api.sevices;
 
 import com.jsmartbot.bot.api.utils.Either;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -39,4 +40,6 @@ public interface UserDataService {
     public Map<String, Object> getTree(UUID userId, UUID groupId);
 
     public void delete(UUID userId, UUID groupId, String propertyName);
+
+    public List<UUID> findUsersByProperty(UUID groupId, String propertyName, String value);
 }

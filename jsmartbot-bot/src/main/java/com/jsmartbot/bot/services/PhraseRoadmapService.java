@@ -6,8 +6,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.jsmartbot.bot.api.sevices.UserDataService;
 import com.jsmartbot.bot.configurations.FreemarkerEngine;
 import com.jsmartbot.bot.configurations.JavaScriptEngine;
+import com.jsmartbot.bot.dao.AnswerDao;
 import com.jsmartbot.bot.dao.PhraseDao;
 import com.jsmartbot.bot.dao.PhraseRoadmapDao;
 import com.jsmartbot.bot.entities.Phrase;
@@ -33,16 +35,19 @@ public class PhraseRoadmapService {
     private FreemarkerEngine freemarkerEngine;
     @Autowired
     private JavaScriptEngine javaScriptEngine;
+    @Autowired
+    private UserDataService userDataService;
+    @Autowired
+    private AnswerDao answerDao;
 
     public Optional<Phrase> getNextPhrase(UUID userId, UUID currentPhraseId, UUID answerId, String anotherAnswer) {
-        Optional<Phrase> result = Optional.empty();
-//        if(answerId != null) {
-//            result = phraseDao.findOneByPhraseIdAndAnswerId(currentPhraseId, answerId);
-//        } else if (anotherAnswer != null) {
-//            result = phraseDao.findOneByPhraseIdAndAnswerText(currentPhraseId, anotherAnswer);
-//        }
         Optional<PhraseRoadmap> roadmap = phraseRoadmapDao.findByPhraseId(currentPhraseId);
 
+        if (roadmap.isPresent()) {
+            String userProperty = roadmap.get().getUserProperty();
+            String answerValue = answerId != null ? answerDao.findById(answerId).orElseThrow(() -> new IllegalArgumentException("Can not find this answer")).getText() : anotherAnswer;
+            userDataService.set(userId, null, userProperty, answerValue);
+        }
         return roadmap
                 .flatMap(value -> calculateNextPhrase(userId, answerId, anotherAnswer, value.getNextPhraseSupplier()))
                 .map(phraseId -> phraseDao.getOne(phraseId))
