@@ -8,14 +8,14 @@ import java.util.UUID;
 public class UserState {
     @Id
     private String userId;
-    private UUID currentQuestionId;
+    private UUID currentPhraseId;
 
     public UserState() {
     }
 
-    public UserState(String userId, UUID currentQuestionId) {
+    public UserState(String userId, UUID currentPhraseId) {
         this.userId = userId;
-        this.currentQuestionId = currentQuestionId;
+        this.currentPhraseId = currentPhraseId;
     }
 
     public String getUserId() {
@@ -26,11 +26,11 @@ public class UserState {
         this.userId = userId;
     }
 
-    public UUID getCurrentQuestionId() {
-        return currentQuestionId;
+    public UUID getCurrentPhraseId() {
+        return currentPhraseId;
     }
 
-    public void setCurrentQuestionId(UUID currentQuestionId) {
-        this.currentQuestionId = currentQuestionId;
+    public void setCurrentPhraseId(UUID currentPhraseId) {
+        this.currentPhraseId = currentPhraseId;
     }
 }

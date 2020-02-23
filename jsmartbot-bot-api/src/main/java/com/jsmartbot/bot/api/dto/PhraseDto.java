@@ -8,13 +8,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-public class QuestionDto implements Serializable {
+public class PhraseDto implements Serializable {
     private final UUID id;
     private final String text;
     private final List<AnswerDto> answers;
 
     @JsonCreator
-    public QuestionDto(@JsonProperty("id") UUID id, @JsonProperty("text") String text, @JsonProperty("answers") List<AnswerDto> answers) {
+    public PhraseDto(@JsonProperty("id") UUID id, @JsonProperty("text") String text, @JsonProperty("answers") List<AnswerDto> answers) {
         this.id = id;
         this.text = text;
         this.answers = answers;

@@ -3,7 +3,7 @@ package com.jsmartbot.bot;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jsmartbot.bot.api.dto.AnswerDto;
-import com.jsmartbot.bot.api.dto.QuestionDto;
+import com.jsmartbot.bot.api.dto.PhraseDto;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -63,14 +63,14 @@ public class AdminApiControllerTest {
     public void addTest() throws Exception {
         UUID questionId = UUID.randomUUID();
         String questionText = "Which english level do you have?";
-        String json = objectMapper.writeValueAsString(new QuestionDto(questionId, questionText,
+        String json = objectMapper.writeValueAsString(new PhraseDto(questionId, questionText,
                 Collections.singletonList(new AnswerDto(UUID.randomUUID(), "intermediate"))));
 
         MvcResult result = mockMvc.perform( request(HttpMethod.PUT, "/admin-api/add", json) )
                 .andExpect(status().isOk())
                 .andReturn();
-        List<QuestionDto> questions = objectMapper.readValue(result.getResponse().getContentAsString(),
-                                                        new TypeReference<List<QuestionDto>>(){});
+        List<PhraseDto> questions = objectMapper.readValue(result.getResponse().getContentAsString(),
+                                                        new TypeReference<List<PhraseDto>>(){});
         log.info("Result  {}", questions);
         Assert.assertEquals(1, questions.size());
         Assert.assertEquals(questionId, questions.get(0).getId());
@@ -83,8 +83,8 @@ public class AdminApiControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        List<QuestionDto> questions = objectMapper.readValue(result.getResponse().getContentAsString(),
-                new TypeReference<List<QuestionDto>>(){});
+        List<PhraseDto> questions = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<List<PhraseDto>>(){});
         log.info("Result  {}", questions);
 
         Assert.assertNotNull("List of questions has to have question about name",
