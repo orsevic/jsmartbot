@@ -46,7 +46,9 @@ public class PhraseRoadmapService {
         if (roadmap.isPresent()) {
             String userProperty = roadmap.get().getUserProperty();
             String answerValue = answerId != null ? answerDao.findById(answerId).orElseThrow(() -> new IllegalArgumentException("Can not find this answer")).getText() : anotherAnswer;
-            userDataService.set(userId, null, userProperty, answerValue);
+            if (!StringUtils.isEmpty(userProperty)) {
+                userDataService.set(userId, null, userProperty, answerValue);
+            }
         }
         return roadmap
                 .flatMap(value -> calculateNextPhrase(userId, answerId, anotherAnswer, value.getNextPhraseSupplier()))

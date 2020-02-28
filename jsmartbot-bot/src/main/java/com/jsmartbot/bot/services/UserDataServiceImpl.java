@@ -23,7 +23,7 @@ import java.util.UUID;
 import javax.persistence.Tuple;
 import javax.transaction.NotSupportedException;
 
-@Service
+@Service("userDataService")
 public class UserDataServiceImpl implements UserDataService {
     @Autowired
     private AuthService authService;
@@ -38,7 +38,7 @@ public class UserDataServiceImpl implements UserDataService {
     public void set(UUID userId, UUID groupId, String propertyName, String value){
         //TODO groupId is not supported yet
         UserProperty property =
-                userPropertyDao.findOneByNameAndParentId(propertyName, null).orElseThrow(() -> new IllegalArgumentException("Can not find property"));
+                userPropertyDao.findOneByNameAndParentId(propertyName, null).orElseThrow(() -> new IllegalArgumentException(String.format("Can not find property - [%s]", propertyName)));
         Optional<UserData> userData = userDataDao.findOneByUserIdAndPropertyIdAndParentId(userId, property.getId(), groupId);
 
         if (!userData.isPresent()) {
@@ -58,7 +58,7 @@ public class UserDataServiceImpl implements UserDataService {
     public Either<String, Map<String, String>> get(UUID userId, UUID groupId, String propertyName) {
         //TODO groupId is not supported yet
         UserProperty property =
-                userPropertyDao.findOneByNameAndParentId(propertyName, null).orElseThrow(() -> new IllegalArgumentException("Can not find property"));
+                userPropertyDao.findOneByNameAndParentId(propertyName, null).orElseThrow(() -> new IllegalArgumentException(String.format("Can not find property - [%s]", propertyName)));
         Optional<UserData> userData = userDataDao.findOneByUserIdAndPropertyIdAndParentId(userId, property.getId(), groupId);
         //TODO now it is working only with strings and not group
         return new Left(userData.map(UserData::getValue).orElse(null));
@@ -78,7 +78,7 @@ public class UserDataServiceImpl implements UserDataService {
     public List<UUID> findUsersByProperty(UUID groupId, String propertyName, String value) {
         //TODO groupId is not supported yet
         UserProperty property =
-                userPropertyDao.findOneByNameAndParentId(propertyName, null).orElseThrow(() -> new IllegalArgumentException("Can not find property"));
+                userPropertyDao.findOneByNameAndParentId(propertyName, null).orElseThrow(() -> new IllegalArgumentException(String.format("Can not find property - [%s]", propertyName)));
         return userDataDao.findUsersByPropertyValue(property.getId(), value);
     }
 }

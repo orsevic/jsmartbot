@@ -59,7 +59,7 @@ insert into user_property (id, name, type, parent_id) values
 
 insert into phrase(id, type, text, params_supplier) values
 ('9f20b0bb-a193-47f1-a05f-020dcd57cbb6', 'QUESTION', 'Hi. What is your name?', null),
-('49436879-c1dc-42f4-bec5-907e0875a93a', 'PHRASE', 'Nice to meet you, ${params.userName}', 'var result = {userName:userDataService.get(context.userId, null, "userName").getValue()}; result;'),
+('49436879-c1dc-42f4-bec5-907e0875a93a', 'PHRASE', 'Nice to meet you, ${params.userName}', 'var result = {userName:userDataService.get(context.userId, null, "login").getValue()}; result;'),
 ('a36cc06b-0614-4282-a782-e1ed5085dec6', 'QUESTION', 'Which english level do you have?', null),
 ('c47a1123-3ed5-43fc-a67c-d5e02f8be179', 'PHRASE', 'Great! I have ${params.count}', 'var result = {count:1507}; result;');
 
