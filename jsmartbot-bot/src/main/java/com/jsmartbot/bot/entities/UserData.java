@@ -11,7 +11,6 @@ import org.hibernate.annotations.Type;
 @Entity
 public class UserData {
     @Id
-    @Type(type="pg-uuid")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private UUID userId;

@@ -50,8 +50,6 @@ CREATE TABLE user_data (
     parent_id UUID REFERENCES user_data(id)
 );
 
-
-
 --changeset orsevic:test_question context:test failOnError:true
 insert into user_property (id, name, type, parent_id) values
 ('f2340234-4ea9-4436-b8e3-d6aac5fce1b9', 'englishLevel', 'string', null),
@@ -63,10 +61,12 @@ insert into phrase(id, type, text, params_supplier) values
 ('a36cc06b-0614-4282-a782-e1ed5085dec6', 'QUESTION', 'Which english level do you have?', null),
 ('c47a1123-3ed5-43fc-a67c-d5e02f8be179', 'PHRASE', 'Great! I have ${params.count}', 'var result = {count:userDataService.findUsersByProperty(null, "englishLevel", userDataService.get(context.userId, null, "englishLevel").getValue()).size()}; result;');
 
-
 insert into answer(id, text, phrase_id) values
 ('31ae8062-744d-454b-a647-200708d339fd', 'beginner', 'a36cc06b-0614-4282-a782-e1ed5085dec6'),
-('2441fb0f-b183-4e81-9d4a-59eaeec07b52', 'intermediate', 'a36cc06b-0614-4282-a782-e1ed5085dec6');
+('2441fb0f-b183-4e81-9d4a-59eaeec07b52', 'pre-intermediate', 'a36cc06b-0614-4282-a782-e1ed5085dec6'),
+('6b52754f-4083-4a2d-96f8-bb56faec6f40', 'intermediate', 'a36cc06b-0614-4282-a782-e1ed5085dec6'),
+('912c01cc-6b65-424e-8cec-65a805227970', 'upper-intermediate', 'a36cc06b-0614-4282-a782-e1ed5085dec6'),
+('6336b1fb-fe36-45a9-988c-47e6b83fe1bc', 'advanced', 'a36cc06b-0614-4282-a782-e1ed5085dec6');
 
 insert into phrase_roadmap(id, start, phrase_id, next_phrase_supplier, user_property) values
 ('1110b0bb-a193-47f1-a05f-020dcd57cbb6', true, '9f20b0bb-a193-47f1-a05f-020dcd57cbb6', 'var result = "49436879-c1dc-42f4-bec5-907e0875a93a"; result;', 'login'),

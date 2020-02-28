@@ -97,6 +97,7 @@ public class BotControllerTest {
         log.info("Result  {}", question);
         Assert.assertNotNull(question);
         Assert.assertEquals(UUID.fromString("c47a1123-3ed5-43fc-a67c-d5e02f8be179"), question.getId());
+        Assert.assertEquals("Great! I have 1", question.getText());
 
         json = objectMapper.writeValueAsString(new AnswerQuestionDto("1111111", null,  null));
         result = mockMvc.perform( request(HttpMethod.POST, "/bot-api/answer-question", json) )
