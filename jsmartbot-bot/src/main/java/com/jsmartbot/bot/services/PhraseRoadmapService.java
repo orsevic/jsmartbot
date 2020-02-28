@@ -87,6 +87,9 @@ public class PhraseRoadmapService {
         Map<String, Object> context = new HashMap<>();
         context.put("userId", userId);
         context.put("answerId", answerId);
+        if (answerId != null) {
+            context.put("answer", answerDao.findById(answerId).get());
+        }
         context.put("anotherAnswer", anotherAnswer);
         Object result = javaScriptEngine.evalJs(nextPhraseSupplier, Collections.singletonMap("context", context));
         if (result == null) {

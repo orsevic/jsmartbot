@@ -13,6 +13,6 @@ public interface UserDataDao extends JpaRepository<UserData, String> {
     Optional<UserData> findOneByUserIdAndPropertyIdAndParentId(@Param("userId") UUID userId, @Param("propertyId") UUID id, @Param("parentId") UUID groupId);
 
     @Query(nativeQuery = true, value =
-            "SELECT ud.user_id FROM user_data ud WHERE ud.property_id = :propertyId AND ud.value = :value")
+            "SELECT cast(ud.user_id as varchar(32)) FROM user_data ud WHERE ud.property_id = :propertyId AND ud.value = :value")
     List<UUID> findUsersByPropertyValue(@Param("propertyId") UUID propertyId, @Param("value")  String value);
 }
