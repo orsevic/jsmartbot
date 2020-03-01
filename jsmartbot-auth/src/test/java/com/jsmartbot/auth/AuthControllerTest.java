@@ -50,7 +50,7 @@ public class AuthControllerTest {
     private AuthService authService;
     @Test
     public void given_nothing_When_telegramId_Then_newUser(){
-        UserDto user = authService.findOrCreateUser("1235489");
+        UserDto user = authService.findOrCreateTelegramUser("1235489", null, "Joe", null);
         Assert.assertNotNull(user);
     }
 

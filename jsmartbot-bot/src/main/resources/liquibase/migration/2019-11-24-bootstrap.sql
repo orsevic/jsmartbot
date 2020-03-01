@@ -22,7 +22,7 @@ CREATE TABLE answer (
 );
 
 CREATE TABLE user_state(
-    user_id VARCHAR(256) PRIMARY KEY,
+    user_id UUID PRIMARY KEY,
     current_phrase_id UUID NOT NULL REFERENCES phrase (id)
 );
 

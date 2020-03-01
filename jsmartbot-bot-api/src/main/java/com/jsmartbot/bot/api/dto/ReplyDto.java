@@ -9,19 +9,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author sergeyorlov
  **/
-public class AnswerQuestionDto  implements Serializable {
-    private final String userId;
+public class ReplyDto implements Serializable {
+    private final UUID userId;
     private final UUID answerId;
     private final String anotherAnswer;
 
     @JsonCreator
-    public AnswerQuestionDto(@JsonProperty("userId") String userId, @JsonProperty("answerId") UUID answerId, @JsonProperty("anotherAnswer") String anotherAnswer) {
+    public ReplyDto(@JsonProperty("userId") UUID userId, @JsonProperty("answerId") UUID answerId, @JsonProperty("anotherAnswer") String anotherAnswer) {
         this.userId = userId;
         this.answerId = answerId;
         this.anotherAnswer = anotherAnswer;
     }
 
-    public String getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 

@@ -11,6 +11,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String telegramId;
+    private String firstName;
+    private String lastName;
+    private String telegramUserName;
     private LocalDateTime lastEntry;
 
     public User() {
@@ -30,6 +33,30 @@ public class User {
 
     public void setTelegramId(String telegramId) {
         this.telegramId = telegramId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getTelegramUserName() {
+        return telegramUserName;
+    }
+
+    public void setTelegramUserName(String telegramUserName) {
+        this.telegramUserName = telegramUserName;
     }
 
     public LocalDateTime getLastEntry() {

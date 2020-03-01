@@ -1,4 +1,4 @@
-package com.jsmartbot.bot.configurations;
+package com.jsmartbot.telegramConnector.configurations;
 
 import com.jsmartbot.auth.api.services.AuthService;
 import com.jsmartbot.bot.api.sevices.BotService;
@@ -6,21 +6,24 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
-import org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter;
 
 /**
  * @author sergeyorlov
  **/
 @Configuration
 public class HttpInvokerConfiguration {
+    @Value("${jsmartbot.bot.service.url:http://localhost:8081/bot}")
+    private String botServiceUrl;
+
     @Value("${jsmartbot.auth.service.url:http://localhost:8083/auth}")
     private String authServiceUrl;
 
-    @Bean(name = "/bot") HttpInvokerServiceExporter botServiceExporter(BotService botService) {
-        HttpInvokerServiceExporter exporter = new HttpInvokerServiceExporter();
-        exporter.setService(botService);
-        exporter.setServiceInterface( BotService.class );
-        return exporter;
+    @Bean
+    public HttpInvokerProxyFactoryBean invoker() {
+        HttpInvokerProxyFactoryBean invoker = new HttpInvokerProxyFactoryBean();
+        invoker.setServiceUrl(botServiceUrl);
+        invoker.setServiceInterface(BotService.class);
+        return invoker;
     }
     @Bean
     public HttpInvokerProxyFactoryBean authServiceInvoker() {

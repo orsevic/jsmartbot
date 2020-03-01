@@ -9,5 +9,5 @@ import java.util.UUID;
  * @author sergeyorlov
  **/
 public interface BotService {
-    PhraseDto answerQuestion(String userId, UUID answerId, String textAnswer);
+    PhraseDto answerQuestion(UUID userId, UUID answerId, String textAnswer);
 }

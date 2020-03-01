@@ -30,29 +30,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class BotServiceImpl implements BotService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    private AdminApiService adminApiService;
-    @Autowired
     private UserStateDao userStateDao;
-    @Autowired
-    private PhraseDao phraseDao;
     @Autowired
     private AnswerDao answerDao;
     @Autowired
     private PhraseRoadmapService phraseRoadmapService;
-    @Autowired
-    private AuthService authService;
 
     @Override
-    public PhraseDto answerQuestion(String userId, UUID answerId, String anotherAnswer) {
-        UserDto user = authService.findOrCreateUser(userId);
-        Optional<UserState> userState = userStateDao.findById(user.getId().toString());
+    public PhraseDto answerQuestion(UUID userId, UUID answerId, String anotherAnswer) {
+
+        Optional<UserState> userState = userStateDao.findById(userId);
         Optional<Phrase> nextPhrase;
 
         if (!userState.isPresent()) {
-            nextPhrase = phraseRoadmapService.getFirstPhrase(user.getId());
-            userState = Optional.of(new UserState(user.getId().toString(), nextPhrase.get().getId()));
+            nextPhrase = phraseRoadmapService.getFirstPhrase(userId);
+            userState = Optional.of(new UserState(userId, nextPhrase.get().getId()));
         } else {
-            nextPhrase = phraseRoadmapService.getNextPhrase(user.getId(), userState.get().getCurrentPhraseId(), answerId, anotherAnswer);
+            nextPhrase = phraseRoadmapService.getNextPhrase(userId, userState.get().getCurrentPhraseId(), answerId, anotherAnswer);
             if (nextPhrase.isPresent()) {
                 userState.get().setCurrentPhraseId(nextPhrase.get().getId());
             }

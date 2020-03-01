@@ -7,22 +7,22 @@ import java.util.UUID;
 @Entity
 public class UserState {
     @Id
-    private String userId;
+    private UUID userId;
     private UUID currentPhraseId;
 
     public UserState() {
     }
 
-    public UserState(String userId, UUID currentPhraseId) {
+    public UserState(UUID userId, UUID currentPhraseId) {
         this.userId = userId;
         this.currentPhraseId = currentPhraseId;
     }
 
-    public String getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 

@@ -1,7 +1,7 @@
 package com.jsmartbot.bot;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jsmartbot.bot.api.dto.AnswerQuestionDto;
+import com.jsmartbot.bot.api.dto.ReplyDto;
 import com.jsmartbot.bot.api.dto.PhraseDto;
 import org.junit.Assert;
 import org.junit.Before;
@@ -57,10 +57,9 @@ public class BotControllerTest {
     }
     @Test
     public void answerQuestionTest() throws Exception {
-        String userId = "1111111";
+        UUID userId = UUID.randomUUID();
 
-
-        String json = objectMapper.writeValueAsString(new AnswerQuestionDto(userId, null, null));
+        String json = objectMapper.writeValueAsString(new ReplyDto(userId, null, null));
         MvcResult result = mockMvc.perform( request(HttpMethod.POST, "/bot-api/answer-question", json) )
                 .andExpect(status().isOk())
                 .andReturn();
@@ -70,7 +69,7 @@ public class BotControllerTest {
         Assert.assertEquals(UUID.fromString("9f20b0bb-a193-47f1-a05f-020dcd57cbb6"), question.getId());
         Assert.assertEquals("Hi. What is your name?", question.getText());
 
-        json = objectMapper.writeValueAsString(new AnswerQuestionDto("1111111", null, "Joe"));
+        json = objectMapper.writeValueAsString(new ReplyDto(userId, null, "Joe"));
         result = mockMvc.perform( request(HttpMethod.POST, "/bot-api/answer-question", json) )
                 .andExpect(status().isOk())
                 .andReturn();
@@ -80,7 +79,7 @@ public class BotControllerTest {
         Assert.assertEquals(UUID.fromString("49436879-c1dc-42f4-bec5-907e0875a93a"), question.getId());
         Assert.assertEquals("Nice to meet you, Joe", question.getText());
 
-        json = objectMapper.writeValueAsString(new AnswerQuestionDto("1111111", null, null));
+        json = objectMapper.writeValueAsString(new ReplyDto(userId, null, null));
         result = mockMvc.perform( request(HttpMethod.POST, "/bot-api/answer-question", json) )
                 .andExpect(status().isOk())
                 .andReturn();
@@ -89,7 +88,7 @@ public class BotControllerTest {
         Assert.assertNotNull(question);
         Assert.assertEquals(UUID.fromString("a36cc06b-0614-4282-a782-e1ed5085dec6"), question.getId());
 
-        json = objectMapper.writeValueAsString(new AnswerQuestionDto("1111111", UUID.fromString("31ae8062-744d-454b-a647-200708d339fd"), null));
+        json = objectMapper.writeValueAsString(new ReplyDto(userId, UUID.fromString("31ae8062-744d-454b-a647-200708d339fd"), null));
         result = mockMvc.perform( request(HttpMethod.POST, "/bot-api/answer-question", json) )
                 .andExpect(status().isOk())
                 .andReturn();
@@ -99,7 +98,7 @@ public class BotControllerTest {
         Assert.assertEquals(UUID.fromString("c47a1123-3ed5-43fc-a67c-d5e02f8be179"), question.getId());
         Assert.assertEquals("Great! I have 1", question.getText());
 
-        json = objectMapper.writeValueAsString(new AnswerQuestionDto("1111111", null,  null));
+        json = objectMapper.writeValueAsString(new ReplyDto(userId, null,  null));
         result = mockMvc.perform( request(HttpMethod.POST, "/bot-api/answer-question", json) )
                 .andExpect(status().isOk())
                 .andReturn();

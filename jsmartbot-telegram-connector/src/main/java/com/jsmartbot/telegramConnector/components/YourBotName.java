@@ -1,5 +1,7 @@
 package com.jsmartbot.telegramConnector.components;
 
+import com.jsmartbot.auth.api.dto.UserDto;
+import com.jsmartbot.auth.api.services.AuthService;
 import com.jsmartbot.bot.api.dto.PhraseDto;
 import com.jsmartbot.bot.api.sevices.BotService;
 import org.slf4j.Logger;
@@ -15,6 +17,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.Collections;
 import java.util.UUID;
@@ -28,6 +31,9 @@ import java.util.UUID;
 
     @Value("${telegram.bot.token:TOKEN}")
     private String botToken;
+
+    @Autowired
+    private AuthService authService;
 
     @Autowired
     private BotService botService;
@@ -45,7 +51,8 @@ import java.util.UUID;
           Message message = update.getMessage();
           if (message.hasText() || message.hasLocation()) {
             String chatId = String.valueOf(update.getMessage().getChatId());
-            PhraseDto nextQuestion = botService.answerQuestion(chatId, null, message.getText());
+            UserDto user = authService.findOrCreateTelegramUser(chatId, null, null, null);
+            PhraseDto nextQuestion = botService.answerQuestion(user.getId(), null, message.getText());
             sendQuestionWithAnswers(chatId, update, nextQuestion);
           }
         }
@@ -53,22 +60,25 @@ import java.util.UUID;
           CallbackQuery callbackQuery = update.getCallbackQuery();
 
           String chatId = String.valueOf(callbackQuery.getMessage().getChatId());
-          PhraseDto nextQuestion = botService.answerQuestion(chatId, UUID.fromString(callbackQuery.getData()), null);
+          UserDto user = authService.findOrCreateTelegramUser(chatId, null, null, null);
+          PhraseDto nextQuestion = botService.answerQuestion(user.getId(), UUID.fromString(callbackQuery.getData()), null);
           sendQuestionWithAnswers(chatId, update, nextQuestion);
 
         }
 
       } catch (Exception e) {
-        System.out.println(e.getMessage());
+        log.error(e.getMessage(), e);
       }
     }
 
-  private void sendQuestionWithAnswers(String chatId, Update update, PhraseDto nextQuestion) throws org.telegram.telegrambots.meta.exceptions.TelegramApiException {
+  private void sendQuestionWithAnswers(String chatId, Update update, PhraseDto nextQuestion) throws TelegramApiException {
     SendMessage sendMessage = new SendMessage();
     sendMessage.enableMarkdown(true);
     sendMessage.setChatId(chatId);
 //    sendMessage.set
-    sendMessage.setText(nextQuestion.getText());
+//    sendMessage.setParseMode("markdown");
+//    sendMessage.enableMarkdown(true);
+    sendMessage.setText(nextQuestion.getText() + " [inline mention of a user](tg://user?id=173091625)");
 
     InlineKeyboardMarkup answerButtons = new InlineKeyboardMarkup();
     nextQuestion.getAnswers().forEach(answer -> {
@@ -87,7 +97,18 @@ import java.util.UUID;
 //            test.setKeyboard(Collections.singletonList(row));
     sendMessage.setReplyMarkup(answerButtons);
 
+
     execute(sendMessage);
+
+//    SendContact sendContact = new SendContact();
+//    sendContact.setChatId(chatId);
+//    sendContact.setPhoneNumber("9268505108");
+//    sendContact.setFirstName("asas");
+//    SendMessage sendContact = new SendMessage();
+//    sendMessage.enableMarkdown(true);
+//    sendMessage.setChatId(chatId);
+//    sendMessage.
+//    execute(sendContact);
   }
 
   @Override
