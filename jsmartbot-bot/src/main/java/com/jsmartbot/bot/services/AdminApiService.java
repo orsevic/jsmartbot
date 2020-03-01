@@ -31,9 +31,9 @@ public class AdminApiService {
 
     public List<PhraseDto> list () {
         return questionDao.findAll().stream().map(
-                entity -> new PhraseDto(entity.getId(), entity.getText(),
+                entity -> new PhraseDto(entity.getId(), entity.getText(), entity.getType().name(),
                         answerDao.findByPhraseId(entity.getId()).stream().map(answer -> new AnswerDto(answer.getId(), answer.getText()))
-                                .collect(Collectors.toList()))
+                                .collect(Collectors.toList()), entity.getSelectedUsers())
         ).collect(Collectors.toList());
     }
 }

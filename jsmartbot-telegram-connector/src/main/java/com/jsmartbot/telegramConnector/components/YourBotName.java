@@ -51,7 +51,12 @@ import java.util.UUID;
           Message message = update.getMessage();
           if (message.hasText() || message.hasLocation()) {
             String chatId = String.valueOf(update.getMessage().getChatId());
-            UserDto user = authService.findOrCreateTelegramUser(chatId, null, null, null);
+            UserDto user = authService.findOrCreateTelegramUser(
+                    chatId,
+                    update.getMessage().getFrom().getUserName(),
+                    update.getMessage().getFrom().getFirstName(),
+                    update.getMessage().getFrom().getLastName()
+            );
             PhraseDto nextQuestion = botService.answerQuestion(user.getId(), null, message.getText());
             sendQuestionWithAnswers(chatId, update, nextQuestion);
           }
@@ -60,7 +65,12 @@ import java.util.UUID;
           CallbackQuery callbackQuery = update.getCallbackQuery();
 
           String chatId = String.valueOf(callbackQuery.getMessage().getChatId());
-          UserDto user = authService.findOrCreateTelegramUser(chatId, null, null, null);
+          UserDto user = authService.findOrCreateTelegramUser(
+                  chatId,
+                  callbackQuery.getFrom().getUserName(),
+                  callbackQuery.getFrom().getFirstName(),
+                  callbackQuery.getFrom().getLastName()
+          );
           PhraseDto nextQuestion = botService.answerQuestion(user.getId(), UUID.fromString(callbackQuery.getData()), null);
           sendQuestionWithAnswers(chatId, update, nextQuestion);
 

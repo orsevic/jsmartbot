@@ -19,8 +19,11 @@ public class User {
     public User() {
     }
 
-    public User(String telegramId) {
+    public User(String telegramId, String telegramUserName, String firstName, String lastName) {
         this.telegramId = telegramId;
+        this.telegramUserName = telegramUserName;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public UUID getId() {

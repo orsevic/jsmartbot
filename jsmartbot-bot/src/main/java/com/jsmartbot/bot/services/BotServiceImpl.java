@@ -15,6 +15,7 @@ import com.jsmartbot.bot.dao.AnswerDao;
 import com.jsmartbot.bot.dao.PhraseDao;
 import com.jsmartbot.bot.dao.UserStateDao;
 import com.jsmartbot.bot.entities.Phrase;
+import com.jsmartbot.bot.entities.PhraseType;
 import com.jsmartbot.bot.entities.UserState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,10 +54,10 @@ public class BotServiceImpl implements BotService {
         }
 
         userStateDao.save(userState.get());
-        return nextPhrase.map(entity -> new PhraseDto(entity.getId(), entity.getPreparedText(),
+        return nextPhrase.map(entity -> new PhraseDto(entity.getId(), entity.getPreparedText(), entity.getType().name(),
                 answerDao.findByPhraseId(entity.getId()).stream().map(answer -> new AnswerDto(answer.getId(), answer.getText()))
-                        .collect(Collectors.toList())))
-                .orElse(new PhraseDto(UUID.randomUUID(), "We do not have question anymore", Collections.emptyList()));
+                        .collect(Collectors.toList()), entity.getSelectedUsers()))
+                .orElse(new PhraseDto(UUID.randomUUID(), "We do not have question anymore", PhraseType.PHRASE.name(), Collections.emptyList(), Collections.emptyList()));
     }
 
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jsmartbot.bot.api.dto.AnswerDto;
 import com.jsmartbot.bot.api.dto.PhraseDto;
+import com.jsmartbot.bot.entities.PhraseType;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -63,8 +64,8 @@ public class AdminApiControllerTest {
     public void addTest() throws Exception {
         UUID questionId = UUID.randomUUID();
         String questionText = "Which english level do you have?";
-        String json = objectMapper.writeValueAsString(new PhraseDto(questionId, questionText,
-                Collections.singletonList(new AnswerDto(UUID.randomUUID(), "intermediate"))));
+        String json = objectMapper.writeValueAsString(new PhraseDto(questionId, questionText, PhraseType.PHRASE.name(),
+                Collections.singletonList(new AnswerDto(UUID.randomUUID(), "intermediate")), Collections.emptyList()));
 
         MvcResult result = mockMvc.perform( request(HttpMethod.PUT, "/admin-api/add", json) )
                 .andExpect(status().isOk())

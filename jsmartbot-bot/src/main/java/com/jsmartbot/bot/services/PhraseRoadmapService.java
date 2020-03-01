@@ -2,6 +2,7 @@ package com.jsmartbot.bot.services;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,6 +15,7 @@ import com.jsmartbot.bot.dao.PhraseDao;
 import com.jsmartbot.bot.dao.PhraseRoadmapDao;
 import com.jsmartbot.bot.entities.Phrase;
 import com.jsmartbot.bot.entities.PhraseRoadmap;
+import com.jsmartbot.bot.entities.PhraseType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,11 +55,11 @@ public class PhraseRoadmapService {
         return roadmap
                 .flatMap(value -> calculateNextPhrase(userId, answerId, anotherAnswer, value.getNextPhraseSupplier()))
                 .map(phraseId -> phraseDao.getOne(phraseId))
-                .map(phrase -> phrase.withPreparedText(prepareText(userId, phrase.getText(), phrase.getParamsSupplier())));
+                .map(phrase -> preparePhrase(phrase, userId));
     }
 
     public Optional<Phrase> getFirstPhrase(UUID userId) {
-        return phraseDao.findOneByStartTrue().map(phrase -> phrase.withPreparedText(prepareText(userId, phrase.getText(), phrase.getParamsSupplier())));
+        return phraseDao.findOneByStartTrue().map(phrase -> preparePhrase(phrase, userId));
     }
 
     private String prepareText(UUID userId, String text, Optional<String> paramsSupplier) {
@@ -72,6 +74,25 @@ public class PhraseRoadmapService {
         }
 
         return text;
+    }
+
+    private Phrase preparePhrase(Phrase phrase, UUID userId) {
+        if (!phrase.getParamsSupplier().isPresent() || StringUtils.isEmpty(phrase.getParamsSupplier().get())) {
+            return phrase.withPreparedText(phrase.getText());
+        }
+
+        try {
+            Map<String, Object> params = prepareParams(userId, phrase.getParamsSupplier().get());
+            String text = freemarkerEngine.process(phrase.getText(), Collections.singletonMap("params", params));
+            phrase.withPreparedText(text);
+
+            if (phrase.getType() == PhraseType.SELECTION && params.containsKey("users")) {
+                phrase.withSelectedUses((List<UUID>)params.get("users"));
+            }
+        } catch (Exception ex) {
+            logger.error("Error while prepare template - {}", ex.getMessage(), ex);
+        }
+        return phrase;
     }
 
     public Map<String, Object> prepareParams(UUID userId, String paramsSupplier) {

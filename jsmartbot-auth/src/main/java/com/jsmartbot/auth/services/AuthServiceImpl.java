@@ -22,7 +22,7 @@ public class AuthServiceImpl implements AuthService {
     public UserDto findOrCreateTelegramUser(String telegramId, String telegramUserName, String firstName, String lastName) {
         Optional<User> user = userDao.findOneByTelegramId(telegramId);
         if (!user.isPresent()){
-            user = Optional.of(new User(telegramId));
+            user = Optional.of(new User(telegramId, telegramUserName, firstName, lastName));
             User createdUser = userDao.save(user.get());
             user = Optional.of(createdUser);
         }

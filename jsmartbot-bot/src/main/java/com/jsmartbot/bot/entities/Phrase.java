@@ -6,6 +6,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,6 +26,8 @@ public class Phrase {
     private String paramsSupplier;
     @Transient
     private String preparedText;
+    @Transient
+    private List<UUID> selectedUsers;
 
     public UUID getId() {
         return id;
@@ -58,8 +61,20 @@ public class Phrase {
         this.preparedText = preparedText;
     }
 
+    public PhraseType getType() {
+        return type;
+    }
+
+    public List<UUID> getSelectedUsers() {
+        return selectedUsers;
+    }
+
     public Phrase withPreparedText(String preparedText) {
         this.preparedText = preparedText;
+        return this;
+    }
+    public Phrase withSelectedUses(List<UUID> selectedUsers) {
+        this.selectedUsers = selectedUsers;
         return this;
     }
 }
