@@ -9,15 +9,15 @@ public interface UserDataService {
     /**
      *
      * @param userId
-     * @param groupId РЅРµРѕР±СЏР·Р°С‚РµР»СЊРЅРѕРµ. Р•СЃР»Рё РЅРµ СѓРєР°Р·Р°РЅРѕ, Р·Р°РїРёСЃС‹РІР°РµС‚СЃСЏ РІ РєРѕСЂРµРЅСЊ. РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р·РЅР°С‡РµРЅРёСЏ UserDataId
+     * @param groupId необязательное. Если не указано, записывается в корень. Идентефикатор значения UserDataId
      * @param propertyName
      * @param value
      */
     public void set(String userId, UUID groupId, String propertyName, String value);
 
     /**
-     * Р”РѕР±Р°РІР»РµРЅРёРµ РіСЂСѓРїРїС‹
-     * @param groupId РЅРµРѕР±СЏР·Р°С‚РµР»СЊРЅРѕРµ. Р•СЃР»Рё РЅРµ СѓРєР°Р·Р°РЅРѕ, Р·Р°РїРёСЃС‹РІР°РµС‚СЃСЏ РІ РєРѕСЂРµРЅСЊ. РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р·РЅР°С‡РµРЅРёСЏ UserDataId
+     * Добавление группы
+     * @param groupId необязательное. Если не указано, записывается в корень. Идентификатор значения UserDataId
      * @param propertyName
      * @param value
      */
@@ -25,8 +25,8 @@ public interface UserDataService {
 
     /**
      *
-     * @param groupId РЅРµРѕР±СЏР·Р°С‚РµР»СЊРЅРѕРµ. РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р·РЅР°С‡РµРЅРёСЏ UserDataId. Р•СЃР»Рё РЅРµ СѓРєР°Р·Р°РЅ,
-     * @param propertyName РЅРµРѕР±СЏР·Р°С‚РµР»СЊРЅРѕРµ.
+     * @param groupId необязательное. Идентификатор значения UserDataId. Если не указан,
+     * @param propertyName необязательное.
      * @return
      */
     public Either<String, Map<String, String>> get(UUID groupId, String propertyName);
