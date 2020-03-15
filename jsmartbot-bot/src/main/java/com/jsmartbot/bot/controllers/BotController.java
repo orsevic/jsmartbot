@@ -1,7 +1,7 @@
 package com.jsmartbot.bot.controllers;
 
 import com.jsmartbot.bot.api.dto.AnswerQuestionDto;
-import com.jsmartbot.bot.api.dto.QuestionDto;
+import com.jsmartbot.bot.api.dto.PhraseDto;
 import com.jsmartbot.bot.api.sevices.BotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +16,7 @@ public class BotController {
     private BotService botService;
 
     @PostMapping(value = "answer-question")
-    public QuestionDto answerQuestion (@RequestBody AnswerQuestionDto request) {
+    public PhraseDto answerQuestion (@RequestBody AnswerQuestionDto request) {
         return botService.answerQuestion(request.getUserId(), request.getAnswerId(), request.getAnotherAnswer());
     }
 }

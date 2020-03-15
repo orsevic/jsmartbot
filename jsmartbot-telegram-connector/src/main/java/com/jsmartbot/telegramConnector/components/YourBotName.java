@@ -1,6 +1,6 @@
 package com.jsmartbot.telegramConnector.components;
 
-import com.jsmartbot.bot.api.dto.QuestionDto;
+import com.jsmartbot.bot.api.dto.PhraseDto;
 import com.jsmartbot.bot.api.sevices.BotService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,12 +14,8 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -48,16 +44,17 @@ import java.util.UUID;
         if (update.hasMessage()) {
           Message message = update.getMessage();
           if (message.hasText() || message.hasLocation()) {
-
-            QuestionDto nextQuestion = botService.answerQuestion(String.valueOf(update.getMessage().getChatId()), null, message.getText());
-            sendQuestionWithAnswers(update, nextQuestion);
+            String chatId = String.valueOf(update.getMessage().getChatId());
+            PhraseDto nextQuestion = botService.answerQuestion(chatId, null, message.getText());
+            sendQuestionWithAnswers(chatId, update, nextQuestion);
           }
         }
         if (update.hasCallbackQuery()) {
           CallbackQuery callbackQuery = update.getCallbackQuery();
 
-          QuestionDto nextQuestion = botService.answerQuestion(String.valueOf(callbackQuery.getMessage().getChatId()), UUID.fromString(callbackQuery.getData()), null);
-          sendQuestionWithAnswers(update, nextQuestion);
+          String chatId = String.valueOf(callbackQuery.getMessage().getChatId());
+          PhraseDto nextQuestion = botService.answerQuestion(chatId, UUID.fromString(callbackQuery.getData()), null);
+          sendQuestionWithAnswers(chatId, update, nextQuestion);
 
         }
 
@@ -66,10 +63,10 @@ import java.util.UUID;
       }
     }
 
-  private void sendQuestionWithAnswers(Update update, QuestionDto nextQuestion) throws org.telegram.telegrambots.meta.exceptions.TelegramApiException {
+  private void sendQuestionWithAnswers(String chatId, Update update, PhraseDto nextQuestion) throws org.telegram.telegrambots.meta.exceptions.TelegramApiException {
     SendMessage sendMessage = new SendMessage();
     sendMessage.enableMarkdown(true);
-    sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
+    sendMessage.setChatId(chatId);
 //    sendMessage.set
     sendMessage.setText(nextQuestion.getText());
 

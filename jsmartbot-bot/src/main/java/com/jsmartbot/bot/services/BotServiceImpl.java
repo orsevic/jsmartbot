@@ -9,13 +9,15 @@ import java.util.stream.Collectors;
 import com.jsmartbot.auth.api.dto.UserDto;
 import com.jsmartbot.auth.api.services.AuthService;
 import com.jsmartbot.bot.api.dto.AnswerDto;
-import com.jsmartbot.bot.api.dto.QuestionDto;
+import com.jsmartbot.bot.api.dto.PhraseDto;
 import com.jsmartbot.bot.api.sevices.BotService;
 import com.jsmartbot.bot.dao.AnswerDao;
-import com.jsmartbot.bot.dao.QuestionDao;
+import com.jsmartbot.bot.dao.PhraseDao;
 import com.jsmartbot.bot.dao.UserStateDao;
-import com.jsmartbot.bot.entities.Question;
+import com.jsmartbot.bot.entities.Phrase;
 import com.jsmartbot.bot.entities.UserState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,42 +28,44 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Service
 public class BotServiceImpl implements BotService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private AdminApiService adminApiService;
     @Autowired
     private UserStateDao userStateDao;
     @Autowired
-    private QuestionDao questionDao;
+    private PhraseDao phraseDao;
     @Autowired
     private AnswerDao answerDao;
     @Autowired
-    private QuestionRoadmapService questionRoadmapService;
+    private PhraseRoadmapService phraseRoadmapService;
     @Autowired
     private AuthService authService;
 
     @Override
-    public QuestionDto answerQuestion(String userId, UUID answerId, String anotherAnswer) {
+    public PhraseDto answerQuestion(String userId, UUID answerId, String anotherAnswer) {
         UserDto user = authService.findOrCreateUser(userId);
         Optional<UserState> userState = userStateDao.findById(user.getId().toString());
-        Optional<Question> nextQuestion = Optional.empty();
+        Optional<Phrase> nextPhrase;
+
         if (!userState.isPresent()) {
-            nextQuestion = questionRoadmapService.getFirstQuestion();
-            userState = Optional.of(new UserState(user.getId().toString(), nextQuestion.get().getId()));
-        } else if (answerId != null || anotherAnswer != null) {
-            nextQuestion = questionRoadmapService.getNextQuestion(
-                    userState.get().getCurrentQuestionId(), answerId, anotherAnswer);
-            if (nextQuestion.isPresent()) {
-                userState.get().setCurrentQuestionId(nextQuestion.get().getId());
-            }
+            nextPhrase = phraseRoadmapService.getFirstPhrase(user.getId());
+            userState = Optional.of(new UserState(user.getId().toString(), nextPhrase.get().getId()));
         } else {
-            nextQuestion = questionDao.findById(userState.get().getCurrentQuestionId());
+            nextPhrase = phraseRoadmapService.getNextPhrase(user.getId(), userState.get().getCurrentPhraseId(), answerId, anotherAnswer);
+            if (nextPhrase.isPresent()) {
+                userState.get().setCurrentPhraseId(nextPhrase.get().getId());
+            }
         }
+
         userStateDao.save(userState.get());
-        return nextQuestion.map(entity -> new QuestionDto(entity.getId(), entity.getText(),
-                answerDao.findByQuestionId(entity.getId()).stream().map(answer -> new AnswerDto(answer.getId(), answer.getText()))
+        return nextPhrase.map(entity -> new PhraseDto(entity.getId(), entity.getPreparedText(),
+                answerDao.findByPhraseId(entity.getId()).stream().map(answer -> new AnswerDto(answer.getId(), answer.getText()))
                         .collect(Collectors.toList())))
-                .orElse(new QuestionDto(UUID.randomUUID(), "We do not have question anymore", Collections.emptyList()));
+                .orElse(new PhraseDto(UUID.randomUUID(), "We do not have question anymore", Collections.emptyList()));
     }
+
+
 
 
 }

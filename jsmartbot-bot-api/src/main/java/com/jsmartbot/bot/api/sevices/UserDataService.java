@@ -13,7 +13,7 @@ public interface UserDataService {
      * @param propertyName
      * @param value
      */
-    public void set(String userId, UUID groupId, String propertyName, String value);
+    public void set(UUID userId, UUID groupId, String propertyName, String value);
 
     /**
      * Добавление группы
@@ -21,7 +21,7 @@ public interface UserDataService {
      * @param propertyName
      * @param value
      */
-    public UUID set(String userId ,UUID groupId, String propertyName, Map<String, String> value);
+    public UUID set(UUID userId, UUID groupId, String propertyName, Map<String, String> value);
 
     /**
      *
@@ -29,14 +29,14 @@ public interface UserDataService {
      * @param propertyName необязательное.
      * @return
      */
-    public Either<String, Map<String, String>> get(UUID groupId, String propertyName);
+    public Either<String, Map<String, String>> get(UUID userId, UUID groupId, String propertyName);
 
     /**
      *
      * @param groupId
      * @return
      */
-    public Map<String, Object> getTree(UUID groupId);
+    public Map<String, Object> getTree(UUID userId, UUID groupId);
 
-    public void delete(UUID groupId, String propertyName);
+    public void delete(UUID userId, UUID groupId, String propertyName);
 }

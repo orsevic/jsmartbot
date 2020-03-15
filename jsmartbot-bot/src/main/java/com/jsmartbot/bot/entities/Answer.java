@@ -9,7 +9,7 @@ public class Answer {
     @Id
     private UUID id;
     private String text;
-    private UUID questionId;
+    private UUID phraseId;
 
     public UUID getId() {
         return id;
@@ -27,11 +27,11 @@ public class Answer {
         this.text = text;
     }
 
-    public UUID getQuestionId() {
-        return questionId;
+    public UUID getPhraseId() {
+        return phraseId;
     }
 
-    public void setQuestionId(UUID questionId) {
-        this.questionId = questionId;
+    public void setPhraseId(UUID phraseId) {
+        this.phraseId = phraseId;
     }
 }

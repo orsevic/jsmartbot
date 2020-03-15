@@ -1,20 +1,20 @@
 package com.jsmartbot.bot.services;
 
-import com.jsmartbot.auth.api.dto.UserDto;
+import java.util.Map;
+import java.util.UUID;
+
 import com.jsmartbot.auth.api.services.AuthService;
 import com.jsmartbot.bot.api.sevices.UserDataService;
 import com.jsmartbot.bot.api.utils.Either;
+import com.jsmartbot.bot.api.utils.Left;
 import com.jsmartbot.bot.dao.UserStateDao;
-import com.jsmartbot.bot.entities.UserData;
-import com.jsmartbot.bot.entities.UserState;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
 
-import java.rmi.server.UID;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-
-public class UserDataServiceImpl implements UserDataService {
+@Primary
+@Service("userDataService")
+public class UserDataServiceStubImpl implements UserDataService {
     @Autowired
     private AuthService authService;
     @Autowired
@@ -32,7 +32,7 @@ public class UserDataServiceImpl implements UserDataService {
 
     @Override
     public Either<String, Map<String, String>> get(UUID userId, UUID groupId, String propertyName) {
-        return null;
+        return new Left<>("Joe");
     }
 
     @Override
