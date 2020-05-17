@@ -22,12 +22,12 @@
 ```
 - Hi, I am smartbot!
 - What is your name?
-    - **John**
+    - John
 - Nice to meet you, John!
 - Which english level do you have?
     - beginner
     - pre-intermediate
-    - intermediate - **X**
+    - intermediate - X
     - upper-intermediate
     - advanced
     - native speaker
@@ -35,7 +35,7 @@
 - Which type of meetings do you prefer?
     - online
     - offline
-    - both - **X**
+    - both - X
 - Can you send us your location where you prefer to speak offline?
     **location**
 - Choose one of them or create your own meeting:
@@ -53,11 +53,11 @@
 
 - or create your own meeting or speaking club
 
-    - **Brumo (online) at 6PM**
+    - Bruno (online) at 6PM
 - Thanks, wait a minute while Bruno accept you.
 - Bruno has accepted you. Do not forget about meeting.
 ...
-- Hi, John. Your meeting with Brono in 15 minutes.
+- Hi, John. Your meeting with Bruno in 15 minutes.
 ...
 - Time to meet Bruno. His account is BLABLABLA
 ... in 2 hours
@@ -66,11 +66,11 @@
   - yes
   - no
 ... if yes
-    ** - yes **
+    - yes
 - Do you want to save Bruno as prefer students?
-    ** - yes **
+    - yes
 ... if no
-    ** no **
+    - no
 - Why?
  - Hi did not come
 
