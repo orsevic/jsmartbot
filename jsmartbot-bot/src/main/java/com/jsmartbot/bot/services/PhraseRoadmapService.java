@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import com.jsmartbot.bot.api.sevices.UserDataService;
 import com.jsmartbot.bot.configurations.FreemarkerEngine;
@@ -87,7 +88,7 @@ public class PhraseRoadmapService {
             phrase.withPreparedText(text);
 
             if (phrase.getType() == PhraseType.SELECTION && params.containsKey("users")) {
-                phrase.withSelectedUses((List<UUID>)params.get("users"));
+                phrase.withSelectedUses(((List<String>)params.get("users")).stream().map(element -> UUID.fromString(element)).collect(Collectors.toList()));
             }
         } catch (Exception ex) {
             logger.error("Error while prepare template - {}", ex.getMessage(), ex);

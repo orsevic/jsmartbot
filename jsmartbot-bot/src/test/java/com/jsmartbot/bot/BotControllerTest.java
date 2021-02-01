@@ -3,6 +3,8 @@ package com.jsmartbot.bot;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jsmartbot.bot.api.dto.ReplyDto;
 import com.jsmartbot.bot.api.dto.PhraseDto;
+import com.jsmartbot.bot.entities.Phrase;
+import com.jsmartbot.bot.entities.PhraseType;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +25,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.Collections;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -58,6 +61,11 @@ public class BotControllerTest {
     @Test
     public void answerQuestionTest() throws Exception {
         UUID userId = UUID.randomUUID();
+
+
+        String result2 = objectMapper.writeValueAsString(new PhraseDto(UUID.randomUUID(), "", PhraseType.PHRASE.name()
+                , Collections.emptyList(), Collections.singletonList(UUID.randomUUID())));
+
 
         String json = objectMapper.writeValueAsString(new ReplyDto(userId, null, null));
         MvcResult result = mockMvc.perform( request(HttpMethod.POST, "/bot-api/answer-question", json) )

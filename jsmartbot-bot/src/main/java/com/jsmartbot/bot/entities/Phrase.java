@@ -6,6 +6,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,7 +16,6 @@ import org.springframework.lang.Nullable;
 
 @Entity
 public class Phrase {
-
 
     @Id
     private UUID id;
@@ -27,7 +27,7 @@ public class Phrase {
     @Transient
     private String preparedText;
     @Transient
-    private List<UUID> selectedUsers;
+    private List<UUID> selectedUsers = new ArrayList<>();
 
     public UUID getId() {
         return id;
@@ -77,4 +77,6 @@ public class Phrase {
         this.selectedUsers = selectedUsers;
         return this;
     }
+
+
 }

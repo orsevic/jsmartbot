@@ -54,10 +54,15 @@ public class BotServiceImpl implements BotService {
         }
 
         userStateDao.save(userState.get());
-        return nextPhrase.map(entity -> new PhraseDto(entity.getId(), entity.getPreparedText(), entity.getType().name(),
-                answerDao.findByPhraseId(entity.getId()).stream().map(answer -> new AnswerDto(answer.getId(), answer.getText()))
+        PhraseDto result = nextPhrase.map(entity -> new PhraseDto(entity.getId(), entity.getPreparedText(),
+                entity.getType().name(),
+                answerDao.findByPhraseId(entity.getId()).stream().map(answer -> new AnswerDto(answer.getId(),
+                        answer.getText()))
                         .collect(Collectors.toList()), entity.getSelectedUsers()))
-                .orElse(new PhraseDto(UUID.randomUUID(), "We do not have question anymore", PhraseType.PHRASE.name(), Collections.emptyList(), Collections.emptyList()));
+                .orElse(new PhraseDto(UUID.randomUUID(), "We do not have question anymore", PhraseType.PHRASE.name(),
+                        Collections.emptyList(), Collections.emptyList()));
+
+        return result;
     }
 
 
