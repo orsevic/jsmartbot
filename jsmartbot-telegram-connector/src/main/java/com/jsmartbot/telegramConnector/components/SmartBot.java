@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.UUID;
 
 @Component
-  public class YourBotName extends TelegramLongPollingBot {
+  public class SmartBot extends TelegramLongPollingBot {
   protected final Logger log = LoggerFactory.getLogger(getClass());
 
     @Value("${telegram.bot.name:NAME}")
@@ -29,10 +29,10 @@ import java.util.UUID;
     @Value("${telegram.bot.token:TOKEN}")
     private String botToken;
 
-    @Autowired
-    private BotService botService;
+//    @Autowired
+//    private BotService botService;
 
-    public YourBotName(DefaultBotOptions options) {
+    public SmartBot(DefaultBotOptions options) {
       super(options);
     }
 
@@ -45,16 +45,36 @@ import java.util.UUID;
           Message message = update.getMessage();
           if (message.hasText() || message.hasLocation()) {
             String chatId = String.valueOf(update.getMessage().getChatId());
-            PhraseDto nextQuestion = botService.answerQuestion(chatId, null, message.getText());
-            sendQuestionWithAnswers(chatId, update, nextQuestion);
+//            PhraseDto nextQuestion = botService.answerQuestion(chatId, null, message.getText());
+//            sendQuestionWithAnswers(chatId, update, nextQuestion);
+
+            SendMessage sendMessage = new SendMessage();
+            sendMessage.enableMarkdown(true);
+            sendMessage.setChatId(chatId);
+//    sendMessage.set
+            sendMessage.setText("TEST message");
+            InlineKeyboardMarkup answerButtons = new InlineKeyboardMarkup();
+
+              InlineKeyboardButton answerButton = new InlineKeyboardButton();
+              answerButton.setText("1 кнопка");
+              answerButton.setCallbackData("1");
+              answerButtons.getKeyboard().add(Collections.singletonList(answerButton));
+
+            InlineKeyboardButton answerButton2 = new InlineKeyboardButton();
+            answerButton2.setText("2 кнопка");
+              answerButton2.setCallbackData("2");
+            answerButtons.getKeyboard().add(Collections.singletonList(answerButton2));
+
+            sendMessage.setReplyMarkup(answerButtons);
+            execute(sendMessage);
           }
         }
         if (update.hasCallbackQuery()) {
           CallbackQuery callbackQuery = update.getCallbackQuery();
 
           String chatId = String.valueOf(callbackQuery.getMessage().getChatId());
-          PhraseDto nextQuestion = botService.answerQuestion(chatId, UUID.fromString(callbackQuery.getData()), null);
-          sendQuestionWithAnswers(chatId, update, nextQuestion);
+//          PhraseDto nextQuestion = botService.answerQuestion(chatId, UUID.fromString(callbackQuery.getData()), null);
+//          sendQuestionWithAnswers(chatId, update, nextQuestion);
 
         }
 

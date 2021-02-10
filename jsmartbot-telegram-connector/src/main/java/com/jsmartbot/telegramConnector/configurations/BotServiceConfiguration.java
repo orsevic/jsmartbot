@@ -10,11 +10,11 @@ import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
  **/
 @Configuration
 public class BotServiceConfiguration {
-    @Bean
-    public HttpInvokerProxyFactoryBean invoker() {
-        HttpInvokerProxyFactoryBean invoker = new HttpInvokerProxyFactoryBean();
-        invoker.setServiceUrl("http://localhost:8081/bot");
-        invoker.setServiceInterface(BotService.class);
-        return invoker;
-    }
+//    @Bean
+//    public HttpInvokerProxyFactoryBean invoker() {
+//        HttpInvokerProxyFactoryBean invoker = new HttpInvokerProxyFactoryBean();
+//        invoker.setServiceUrl("http://localhost:8081/bot");
+//        invoker.setServiceInterface(BotService.class);
+//        return invoker;
+//    }
 }
